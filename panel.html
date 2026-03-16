@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Members Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --skin-light: #fff5ed;
+            --skin-base: #f7d7c4;
+            --skin-accent: #e0ac8e;
+            --skin-dark: #8d5524;
+        }
+
+        body {
+            background-color: var(--skin-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--skin-dark);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(141, 85, 36, 0.1);
+        }
+
+        .pin-input {
+            letter-spacing: 1.5rem;
+            text-align: center;
+            padding-left: 1.5rem;
+            font-weight: bold;
+            font-size: 2rem;
+            color: var(--skin-dark);
+            background: var(--skin-base);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .pin-input:focus {
+            outline: none;
+            border-color: var(--skin-accent);
+            background: white;
+            box-shadow: 0 0 15px rgba(224, 172, 142, 0.4);
+        }
+
+        .portal-btn {
+            background: var(--skin-accent);
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .portal-btn:hover {
+            background: var(--skin-dark);
+            transform: translateY(-2px);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .error-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Access Gate (Login) -->
+    <div id="login-container" class="w-full max-w-md px-6 fade-in">
+        <div class="glass-card p-8 text-center">
+            <div class="mb-6">
+                <div class="w-20 h-20 bg-[#f7d7c4] rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                    <i class="fas fa-lock text-[#8d5524]"></i>
+                </div>
+                <h1 class="text-2xl font-bold mb-2">Members Access</h1>
+                <p class="text-sm opacity-70">Please enter your 4-digit access code</p>
+            </div>
+
+            <div class="space-y-4">
+                <input 
+                    type="password" 
+                    id="pin-code" 
+                    maxlength="4" 
+                    placeholder="••••"
+                    class="pin-input w-full rounded-xl py-4"
+                >
+                <div id="error-msg" class="text-red-500 text-sm hidden">Invalid access code. Please try again.</div>
+                <button 
+                    onclick="verifyAccess()"
+                    class="portal-btn w-full py-4 rounded-xl font-bold text-lg shadow-lg"
+                >
+                    Unlock Portal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portal Dashboard -->
+    <div id="portal-container" class="w-full max-w-4xl px-6 hidden fade-in">
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold">Welcome Back</h1>
+                <p class="opacity-70">Member Dashboard</p>
+            </div>
+            <button onclick="logout()" class="p-3 rounded-full hover:bg-white/50 text-sm font-medium">
+                <i class="fas fa-sign-out-alt mr-2"></i>Exit
+            </button>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <!-- Card 1: Upload Book -->
+            <div class="glass-card p-8 flex flex-col items-center text-center">
+                <div class="w-16 h-16 bg-[#e0ac8e]/20 rounded-2xl flex items-center justify-center mb-6 text-2xl">
+                    <i class="fas fa-book-medical text-[#8d5524]"></i>
+                </div>
+                <h2 class="text-xl font-bold mb-3">Upload Your Book</h2>
+                <p class="text-sm opacity-75 mb-8">Submit your latest manuscript or book details to our database for review.</p>
+                <a 
+                    href="https://forms.gle/yoTGXJhrnaNvwjZ56" 
+                    target="_blank"
+                    class="portal-btn w-full py-3 rounded-xl font-semibold mt-auto inline-block"
+                >
+                    Launch Form <i class="fas fa-external-link-alt ml-2 text-xs"></i>
+                </a>
+            </div>
+
+            <!-- Card 2: Upload Details -->
+            <div class="glass-card p-8 flex flex-col items-center text-center">
+                <div class="w-16 h-16 bg-[#e0ac8e]/20 rounded-2xl flex items-center justify-center mb-6 text-2xl">
+                    <i class="fas fa-user-edit text-[#8d5524]"></i>
+                </div>
+                <h2 class="text-xl font-bold mb-3">Update Details</h2>
+                <p class="text-sm opacity-75 mb-8">Keep your profile information, contact details, and social links up to date.</p>
+                <a 
+                    href="https://forms.gle/KcGT9L3LQqYoWgoX7" 
+                    target="_blank"
+                    class="portal-btn w-full py-3 rounded-xl font-semibold mt-auto inline-block"
+                >
+                    Launch Form <i class="fas fa-external-link-alt ml-2 text-xs"></i>
+                </a>
+            </div>
+        </div>
+
+        <footer class="mt-12 text-center text-xs opacity-50">
+            &copy; 2026 Members Portal &bull; All Rights Reserved
+        </footer>
+    </div>
+
+    <script>
+        const CORRECT_PIN = "2026";
+        const pinInput = document.getElementById('pin-code');
+        const errorMsg = document.getElementById('error-msg');
+        const loginContainer = document.getElementById('login-container');
+        const portalContainer = document.getElementById('portal-container');
+
+        // Handle Enter key on input
+        pinInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                verifyAccess();
+            }
+        });
+
+        function verifyAccess() {
+            const input = pinInput.value;
+            
+            if (input === CORRECT_PIN) {
+                // Success
+                errorMsg.classList.add('hidden');
+                loginContainer.classList.add('hidden');
+                portalContainer.classList.remove('hidden');
+                document.body.classList.add('bg-white'); // Slight change in feeling when entered
+                pinInput.value = "";
+            } else {
+                // Failure
+                const card = loginContainer.querySelector('.glass-card');
+                card.classList.remove('error-shake');
+                void card.offsetWidth; // Trigger reflow
+                card.classList.add('error-shake');
+                
+                errorMsg.classList.remove('hidden');
+                pinInput.value = "";
+                pinInput.focus();
+            }
+        }
+
+        function logout() {
+            portalContainer.classList.add('hidden');
+            loginContainer.classList.remove('hidden');
+            document.body.classList.remove('bg-white');
+        }
+
+        // Auto-focus input on load
+        window.onload = () => pinInput.focus();
+    </script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join The Book Verse Community</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --skin-light: #FAF3E0;
+            --skin-medium: #E3CAA5;
+            --skin-warm: #CEAB93;
+            --skin-deep: #AD8B73;
+            --text-main: #433422;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--skin-light);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .premium-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(227, 202, 165, 0.5);
+            box-shadow: 0 20px 50px rgba(173, 139, 115, 0.1);
+        }
+
+        .guideline-step {
+            display: none;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .guideline-step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-dot {
+            transition: all 0.3s ease;
+        }
+
+        .btn-premium {
+            background-color: var(--skin-deep);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-premium:hover:not(:disabled) {
+            background-color: var(--text-main);
+            transform: translateY(-2px);
+        }
+
+        .btn-premium:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Custom Checkbox */
+        .custom-checkbox {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--skin-warm);
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.2s;
+        }
+
+        .custom-checkbox:checked {
+            background-color: var(--skin-deep);
+            border-color: var(--skin-deep);
+        }
+
+        .custom-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 14px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
+
+    <!-- Decorative Elements -->
+    <div class="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FAF3E0] via-[#AD8B73] to-[#FAF3E0]"></div>
+
+    <main class="w-full max-w-2xl">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">The Book Verse</h1>
+            <p class="text-lg opacity-80 italic">Where stories breathe and writers thrive.</p>
+        </header>
+
+        <!-- Main Card -->
+        <div class="premium-card rounded-3xl p-8 md:p-12 relative overflow-hidden">
+            
+            <!-- Progress Section -->
+            <div id="progress-container" class="flex justify-between mb-10 gap-1">
+                <!-- Dots will be generated via JS -->
+            </div>
+
+            <!-- Guidelines Container -->
+            <div id="guidelines-content">
+                <!-- Guideline 1 -->
+                <div class="guideline-step active" data-step="1">
+                    <span class="text-xs uppercase tracking-widest text-[#AD8B73] font-semibold">Guideline 01</span>
+                    <h2 class="text-2xl font-bold mt-2 mb-4">A community for readers and writers</h2>
+                    <p class="text-lg leading-relaxed opacity-90">
+                        This community is created for passionate readers and especially for writers who love creating books, poems, stories, and other forms of literature.
+                    </p>
+                </div>
+
+                <!-- Guideline 2 -->
+                <div class="guideline-step" data-step="2">
+                    <span class="text-xs uppercase tracking-widest text-[#AD8B73] font-semibold">Guideline 02</span>
+                    <h2 class="text-2xl font-bold mt-2 mb-4">Supportive environment</h2>
+                    <p class="text-lg leading-relaxed opacity-90">
+                        Our members believe in supporting one another. Everyone is encouraged to share ideas, feedback, and encouragement. Support others and expect the same respect in return.
+                    </p>
+                </div>
+
+                <!-- Guideline 3 -->
+                <div class="guideline-step" data-step="3">
+                    <span class="text-xs uppercase tracking-widest text-[#AD8B73] font-semibold">Guideline 03</span>
+                    <h2 class="text-2xl font-bold mt-2 mb-4">No political or religious debates</h2>
+                    <p class="text-lg leading-relaxed opacity-90">
+                        Political, religious, or any controversial discussions that may create conflict or harm the community environment are strictly not allowed.
+                    </p>
+                </div>
+
+                <!-- Guideline 4 -->
+                <div class="guideline-step" data-step="4">
+                    <span class="text-xs uppercase tracking-widest text-[#AD8B73] font-semibold">Guideline 04</span>
+                    <h2 class="text-2xl font-bold mt-2 mb-4">Focus on literature and creativity</h2>
+                    <p class="text-lg leading-relaxed opacity-90">
+                        Conversations should mainly focus on books, writing, poetry, storytelling, reading habits, publishing, and learning from one another.
+                    </p>
+                </div>
+
+                <!-- Guideline 5 -->
+                <div class="guideline-step" data-step="5">
+                    <span class="text-xs uppercase tracking-widest text-[#AD8B73] font-semibold">Guideline 05</span>
+                    <h2 class="text-2xl font-bold mt-2 mb-4">Respect for everyone</h2>
+                    <p class="text-lg leading-relaxed opacity-90">
+                        Every member must treat others with respect regardless of their religion, background, nationality, gender, or personal beliefs.
+                    </p>
+                </div>
+
+                <!-- Guideline 6 -->
+                <div class="guideline-step" data-step="6">
+                    <span class="text-xs uppercase tracking-widest text-[#AD8B73] font-semibold">Guideline 06</span>
+                    <h2 class="text-2xl font-bold mt-2 mb-4">Zero tolerance for discrimination</h2>
+                    <p class="text-lg leading-relaxed opacity-90">
+                        Any form of disrespect, discrimination, hate speech, racism, or harassment will not be tolerated and may result in immediate removal from the community.
+                    </p>
+                </div>
+
+                <!-- Guideline 7 -->
+                <div class="guideline-step" data-step="7">
+                    <span class="text-xs uppercase tracking-widest text-[#AD8B73] font-semibold">Guideline 07</span>
+                    <h2 class="text-2xl font-bold mt-2 mb-4">Positive and constructive interaction</h2>
+                    <p class="text-lg leading-relaxed opacity-90">
+                        Always communicate politely and provide constructive feedback when discussing someone’s writing or ideas.
+                    </p>
+                </div>
+
+                <!-- Guideline 8 -->
+                <div class="guideline-step" data-step="8">
+                    <span class="text-xs uppercase tracking-widest text-[#AD8B73] font-semibold">Guideline 08</span>
+                    <h2 class="text-2xl font-bold mt-2 mb-4">No spam or unrelated promotions</h2>
+                    <p class="text-lg leading-relaxed opacity-90">
+                        Avoid sharing spam, advertisements, or unrelated promotional content unless it is directly connected to books, writing, or reading.
+                    </p>
+                </div>
+
+                <!-- Guideline 9 -->
+                <div class="guideline-step" data-step="9">
+                    <span class="text-xs uppercase tracking-widest text-[#AD8B73] font-semibold">Guideline 09</span>
+                    <h2 class="text-2xl font-bold mt-2 mb-4">Protect intellectual work</h2>
+                    <p class="text-lg leading-relaxed opacity-90">
+                        Respect the originality of others’ work. Do not copy, repost, or claim someone else's writing without proper credit.
+                    </p>
+                </div>
+
+                <!-- Guideline 10 -->
+                <div class="guideline-step" data-step="10">
+                    <span class="text-xs uppercase tracking-widest text-[#AD8B73] font-semibold">Guideline 10</span>
+                    <h2 class="text-2xl font-bold mt-2 mb-4">Encourage learning and growth</h2>
+                    <p class="text-lg leading-relaxed opacity-90">
+                        Members are encouraged to share knowledge, book recommendations, writing tips, and resources that help others grow as readers and writers.
+                    </p>
+                </div>
+
+                <!-- Guideline 11 -->
+                <div class="guideline-step" data-step="11">
+                    <span class="text-xs uppercase tracking-widest text-[#AD8B73] font-semibold">Guideline 11</span>
+                    <h2 class="text-2xl font-bold mt-2 mb-4">Maintain a safe and friendly space</h2>
+                    <p class="text-lg leading-relaxed opacity-90">
+                        This community aims to remain a safe, friendly, and inspiring environment for everyone who loves literature.
+                    </p>
+                </div>
+
+                <!-- Guideline 12 -->
+                <div class="guideline-step" data-step="12">
+                    <span class="text-xs uppercase tracking-widest text-[#AD8B73] font-semibold">Final Step</span>
+                    <h2 class="text-2xl font-bold mt-2 mb-4">Agreement to follow the guidelines</h2>
+                    <p class="text-lg leading-relaxed opacity-90 mb-6">
+                        By joining this community, you agree to respect and follow these guidelines to help maintain a healthy and inspiring space for all members.
+                    </p>
+                    
+                    <div class="space-y-4 pt-4 border-t border-[#E3CAA5]">
+                        <label class="flex items-center space-x-3 cursor-pointer group">
+                            <input type="checkbox" id="check-terms" class="custom-checkbox">
+                            <span class="text-sm group-hover:text-[#AD8B73] transition-colors">I agree to the Terms & Conditions and Privacy Policy.</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="mt-12 flex justify-between items-center">
+                <button id="prev-btn" class="px-6 py-2 text-sm font-semibold opacity-50 hover:opacity-100 transition-opacity hidden">
+                    Back
+                </button>
+                <div class="flex-grow"></div>
+                <button id="next-btn" class="btn-premium px-8 py-3 rounded-full font-semibold shadow-lg">
+                    I Understand & Accept
+                </button>
+                <a id="join-link" href="https://ig.me/j/AbZk1d0KvW1gn9iH/" target="_blank" class="btn-premium px-10 py-4 rounded-full font-bold shadow-xl hidden animate-bounce text-center">
+                    Join The Book Verse
+                </a>
+            </div>
+        </div>
+
+        <footer class="mt-8 text-center text-xs opacity-50 tracking-wide uppercase">
+            &copy; 2024 The Book Verse Community &bull; Literary Sanctuary
+        </footer>
+    </main>
+
+    <script>
+        const totalSteps = 12;
+        let currentStep = 1;
+
+        const nextBtn = document.getElementById('next-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const joinLink = document.getElementById('join-link');
+        const progressContainer = document.getElementById('progress-container');
+        const checkTerms = document.getElementById('check-terms');
+
+        // Initialize Progress Dots
+        for (let i = 1; i <= totalSteps; i++) {
+            const dot = document.createElement('div');
+            dot.className = `progress-dot h-1.5 flex-grow rounded-full ${i === 1 ? 'bg-[#AD8B73]' : 'bg-[#E3CAA5] bg-opacity-30'}`;
+            dot.id = `dot-${i}`;
+            progressContainer.appendChild(dot);
+        }
+
+        function updateUI() {
+            // Toggle Visibility
+            document.querySelectorAll('.guideline-step').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.querySelector(`.guideline-step[data-step="${currentStep}"]`).classList.add('active');
+
+            // Update Dots
+            for (let i = 1; i <= totalSteps; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                if (i <= currentStep) {
+                    dot.classList.remove('bg-opacity-30');
+                    dot.style.backgroundColor = '#AD8B73';
+                } else {
+                    dot.classList.add('bg-opacity-30');
+                    dot.style.backgroundColor = '#E3CAA5';
+                }
+            }
+
+            // Back button visibility
+            if (currentStep > 1 && currentStep < totalSteps) {
+                prevBtn.classList.remove('hidden');
+            } else {
+                prevBtn.classList.add('hidden');
+            }
+
+            // Handle Final Step
+            if (currentStep === totalSteps) {
+                nextBtn.classList.add('hidden');
+                validateFinalStep();
+            } else {
+                nextBtn.classList.remove('hidden');
+                joinLink.classList.add('hidden');
+            }
+        }
+
+        function validateFinalStep() {
+            if (currentStep === totalSteps && checkTerms.checked) {
+                joinLink.classList.remove('hidden');
+            } else {
+                joinLink.classList.add('hidden');
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateUI();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateUI();
+            }
+        });
+
+        checkTerms.addEventListener('change', validateFinalStep);
+
+        // Initial UI State
+        updateUI();
+    </script>
+</body>
+</html>

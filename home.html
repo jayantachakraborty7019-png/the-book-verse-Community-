@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE BOOK VERSE COMMUNITY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@200..800&display=swap');
+
+        :root {
+            --skin-light: #fdf8f5;
+            --skin-medium: #f3e5db;
+            --skin-accent: #d7b59a;
+            --text-dark: #2d241e;
+            --text-muted: #6b5a4d;
+            --book-pages: #fffdfa;
+        }
+
+        body {
+            background-color: var(--skin-light);
+            color: var(--text-dark);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4, .serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .glass-nav {
+            background: rgba(253, 248, 245, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(215, 181, 154, 0.2);
+        }
+
+        .premium-card {
+            background: white;
+            border: 1px solid rgba(215, 181, 154, 0.2);
+            border-radius: 32px;
+            box-shadow: 0 20px 40px -15px rgba(74, 55, 40, 0.05);
+        }
+
+        .nav-overlay {
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            transform: translateX(-100%);
+        }
+
+        .nav-overlay.active { transform: translateX(0); }
+
+        /* --- TIME-BASED BOOK ANIMATION --- */
+        .book-section { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 0; position: relative; }
+        .book-container { position: relative; width: 160px; height: 120px; transform-origin: bottom center; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .is-sleeping .book-container { animation: breathe 5s ease-in-out infinite; }
+        .zzz-container { position: absolute; top: -30px; right: 0; pointer-events: none; display: none; }
+        .zzz { position: absolute; color: var(--skin-accent); font-weight: bold; opacity: 0; }
+        .zzz:nth-child(1) { animation: sleep-float 4s infinite 0s; font-size: 14px; }
+        .zzz:nth-child(2) { animation: sleep-float 4s infinite 1.2s; font-size: 18px; }
+        .zzz:nth-child(3) { animation: sleep-float 4s infinite 2.4s; font-size: 24px; }
+
+        @keyframes breathe { 0%, 100% { transform: scale(1) translateY(0); } 50% { transform: scale(1.04) translateY(-5px); } }
+        @keyframes sleep-float { 0% { transform: translate(0, 0) rotate(0deg); opacity: 0; } 20% { opacity: 0.6; } 100% { transform: translate(30px, -60px) rotate(15deg); opacity: 0; } }
+
+        #timeGreeting { font-size: 0.9rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700; color: var(--skin-accent); margin-top: 15px; opacity: 0; transition: opacity 1s ease; }
+        .eye-closed { display: block; } .eye-open { display: none; }
+        .is-awake .eye-closed { display: none; } .is-awake .eye-open { display: block; }
+
+        /* --- MARQUEE --- */
+        .marquee-container { overflow: hidden; white-space: nowrap; position: relative; padding: 20px 0; background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent); display: flex; justify-content: center; }
+        .marquee-track { display: flex; width: max-content; align-items: center; justify-content: center; }
+        .scrolling-active { animation: scroll 40s linear infinite; }
+        .marquee-track:hover { animation-play-state: paused; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .member-frame { width: 120px; height: 120px; border: 3px solid white; border-radius: 50%; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); flex-shrink: 0; margin: 0 20px; transition: all 0.4s ease; }
+        .member-frame:hover { transform: scale(1.1); border-color: var(--skin-accent); }
+
+        .btn-cta {
+            background-color: var(--text-dark);
+            color: white;
+            padding: 18px 48px;
+            border-radius: 100px;
+            transition: all 0.4s ease;
+            display: inline-block;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-align: center;
+        }
+
+        .btn-cta:hover {
+            background-color: var(--skin-accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(215, 181, 154, 0.4);
+        }
+
+        /* Identity Section Styles */
+        .identity-feature { border-bottom: 1px solid #f0ece9; padding-bottom: 2rem; margin-bottom: 2rem; }
+        .identity-feature:last-child { border-bottom: none; }
+
+        .guideline-box {
+            background: white;
+            padding: 24px;
+            border-radius: 20px;
+            border: 1px solid #f0ece9;
+            transition: transform 0.3s ease;
+        }
+        .guideline-box:hover {
+            transform: translateY(-5px);
+            border-color: var(--skin-accent);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="fixed w-full top-0 z-50 px-6 py-4 glass-nav">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="menuBtn" class="p-2 hover:bg-orange-50 rounded-full transition-colors">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            <div class="serif font-black text-xl tracking-[0.15em] text-stone-800 uppercase">THE BOOK VERSE</div>
+            <div class="w-10"></div>
+        </div>
+    </header>
+
+    <div id="sidebar" class="nav-overlay fixed inset-0 z-[60] flex">
+        <div class="w-full max-w-sm h-full bg-white shadow-2xl p-10 flex flex-col">
+            <div class="flex justify-between items-center mb-16">
+                <span class="text-xs font-bold tracking-widest text-stone-400">MENU</span>
+                <button id="closeBtn" class="text-3xl leading-none">×</button>
+            </div>
+            <nav class="space-y-6">
+                <a href="books.html" class="block text-2xl serif hover:text-orange-400 transition-colors">Our Books</a>
+                <a href="join.html" class="block text-2xl serif hover:text-orange-400 transition-colors">Join the community</a>
+                <a href="member.html" class="block text-2xl serif hover:text-orange-400 transition-colors">Meet our community</a>
+                <a href="panel.html" class="block text-2xl serif hover:text-orange-400 transition-colors">Members panel</a>
+            </nav>
+            <div class="mt-auto pt-10 border-t border-stone-100 flex gap-6 text-xs font-bold text-stone-400 uppercase tracking-widest">
+                <a href="terms.html" class="hover:text-stone-800">Terms</a>
+                <a href="policy.html" class="hover:text-stone-800">Privacy</a>
+            </div>
+        </div>
+        <div id="closeOverlay" class="flex-1 bg-black/20 backdrop-blur-sm"></div>
+    </div>
+
+    <main class="pt-32">
+        
+        <section class="max-w-4xl mx-auto px-6 text-center mb-24">
+            <div class="inline-block relative mb-12">
+                <div class="absolute -inset-4 bg-orange-100 rounded-full blur-2xl opacity-40"></div>
+                <img src="https://i.postimg.cc/52T9Pv60/IMG-20260316-122730-637.webp" alt="Logo" class="relative w-40 h-40 object-cover rounded-full border-4 border-white shadow-xl">
+            </div>
+
+            <div id="interactiveBook" class="book-section">
+                <div id="zzzWrapper" class="zzz-container"><span class="zzz">Z</span><span class="zzz">z</span><span class="zzz">z</span></div>
+                <div class="book-container">
+                    <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M100 30 C130 30, 160 35, 180 45 L180 125 C160 115, 130 110, 100 110 Z" fill="var(--book-pages)" />
+                        <path d="M100 30 C70 30, 40 35, 20 45 L20 125 C40 115, 70 110, 100 110 Z" fill="var(--book-pages)" />
+                        <path d="M20 125 L20 130 C40 120, 70 115, 100 115 C130 115, 160 120, 180 130 L180 125 C160 115, 130 110, 100 110 C70 110, 40 115, 20 125" fill="#5d3e2a" />
+                        <path d="M98 30 L98 115 L102 115 L102 30 Z" fill="#4a3728" opacity="0.2" />
+                        <g class="eyes">
+                            <path class="eye-closed" d="M60 70 Q65 75 70 70" fill="none" stroke="var(--text-dark)" stroke-width="2.5" stroke-linecap="round" />
+                            <circle class="eye-open" cx="65" cy="70" r="4" fill="var(--text-dark)" />
+                            <path class="eye-closed" d="M130 70 Q135 75 140 70" fill="none" stroke="var(--text-dark)" stroke-width="2.5" stroke-linecap="round" />
+                            <circle class="eye-open" cx="135" cy="70" r="4" fill="var(--text-dark)" />
+                        </g>
+                    </svg>
+                </div>
+                <div id="timeGreeting">Determining Time...</div>
+            </div>
+
+            <h1 class="text-5xl md:text-7xl font-black mt-8 text-stone-900 leading-tight uppercase">THE BOOK VERSE COMMUNITY</h1>
+            <p class="mt-6 text-stone-500 text-lg max-w-2xl mx-auto leading-relaxed">A sanctuary for the written word, built by creators for creators.</p>
+        </section>
+
+        <!-- Members Section -->
+        <section class="mb-24">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold serif italic mb-4">Our Community Members</h2>
+                <span class="text-xs font-bold tracking-[0.3em] text-orange-400 uppercase">Active Presence</span>
+            </div>
+            <div class="marquee-container" id="marqueeContainer">
+                <div id="membersTrack" class="marquee-track">
+                    <div class="flex items-center justify-center w-full py-10 opacity-30"><i class="fas fa-circle-notch fa-spin"></i></div>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                <a href="member.html" class="text-xs font-bold border-b border-orange-200 hover:border-orange-400 transition-all pb-1 uppercase tracking-widest text-stone-500">View All Community Members</a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="max-w-5xl mx-auto px-6 mb-24">
+            <div class="premium-card p-10 md:p-14">
+                <h2 class="text-3xl font-bold mb-8 serif italic text-center">About the Community</h2>
+                <div class="space-y-6 text-stone-600 leading-relaxed text-lg text-center md:text-left">
+                    <p>This community is created for people who truly love books, ideas, and creative expression. It is a space where readers and writers can come together to share their thoughts, discover meaningful books, and inspire each other through literature.</p>
+                    <p>Our goal is to build a supportive environment where creativity and knowledge grow together. Readers can explore new perspectives through books, while writers can share their poems, stories, and ideas with people who appreciate the art of words.</p>
+                    <p>We believe that books have the power to shape minds, inspire change, and connect people from different backgrounds. In this community, members can discuss books, share recommendations, exchange writing ideas, and help each other improve.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Identity & Purpose Section -->
+        <section class="max-w-5xl mx-auto px-6 mb-32">
+            <div class="grid md:grid-cols-12 gap-12 items-center">
+                <div class="md:col-span-5 text-center md:text-left">
+                    <h2 class="text-4xl font-black text-stone-900 leading-tight mb-6 uppercase">Who We Are & <br><span class="text-orange-400 serif italic font-normal">Our Motive</span></h2>
+                    <p class="text-stone-500 leading-relaxed mb-8">We are a collective of independent thinkers, authors, and bibliophiles dedicated to preserving the sanctity of storytelling in a digital age.</p>
+                    <a href="join.html" class="btn-cta mb-8">Join Our Story</a>
+                    <div class="h-1 w-20 bg-orange-200 mx-auto md:mx-0 mt-8"></div>
+                </div>
+                <div class="md:col-span-7 bg-white p-10 rounded-[32px] border border-stone-100 shadow-sm">
+                    <div class="identity-feature">
+                        <h4 class="text-xl font-bold mb-3 flex items-center justify-center md:justify-start gap-3 uppercase tracking-wide">
+                            <i class="fas fa-pen-nib text-orange-300"></i> Supporting Writers
+                        </h4>
+                        <p class="text-stone-600 text-sm leading-relaxed">Our primary motive is to provide a launchpad for emerging voices. We offer a platform where writers can receive constructive feedback, find inspiration, and connect with an audience that values depth over clicks.</p>
+                    </div>
+                    <div class="identity-feature">
+                        <h4 class="text-xl font-bold mb-3 flex items-center justify-center md:justify-start gap-3 uppercase tracking-wide">
+                            <i class="fas fa-book-open text-orange-300"></i> Literature Advocacy
+                        </h4>
+                        <p class="text-stone-600 text-sm leading-relaxed">We champion literature as a tool for social and personal transformation. By highlighting meaningful works and fostering deep discussion, we ensure that great ideas never go unread.</p>
+                    </div>
+                    <div class="identity-feature">
+                        <h4 class="text-xl font-bold mb-3 flex items-center justify-center md:justify-start gap-3 uppercase tracking-wide">
+                            <i class="fas fa-lightbulb text-orange-300"></i> Important Topics
+                        </h4>
+                        <p class="text-stone-600 text-sm leading-relaxed">From the nuances of storytelling techniques to the evolution of modern publishing, we tackle the topics that matter most to the contemporary literary world.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Guidelines Section -->
+        <section class="bg-stone-50 py-24 px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-20">
+                    <h2 class="text-4xl font-bold mb-4 uppercase tracking-tight">Community Guidelines</h2>
+                    <p class="text-stone-500 max-w-xl mx-auto">To maintain an inspiring and safe environment, we ask all members to adhere to our core principles.</p>
+                </div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+                    <div class="guideline-box">
+                        <span class="text-orange-300 font-bold text-lg mb-2 block">01</span>
+                        <h4 class="font-bold mb-2 uppercase text-xs tracking-widest">For Readers & Writers</h4>
+                        <p class="text-stone-500 text-sm">Created for passionate creators of books, poems, and stories.</p>
+                    </div>
+                    <div class="guideline-box">
+                        <span class="text-orange-300 font-bold text-lg mb-2 block">02</span>
+                        <h4 class="font-bold mb-2 uppercase text-xs tracking-widest">Supportive Space</h4>
+                        <p class="text-stone-500 text-sm">Support others and expect the same respect in return.</p>
+                    </div>
+                    <div class="guideline-box">
+                        <span class="text-orange-300 font-bold text-lg mb-2 block">03</span>
+                        <h4 class="font-bold mb-2 uppercase text-xs tracking-widest">No Debates</h4>
+                        <p class="text-stone-500 text-sm">Strictly no political, religious, or controversial discussions.</p>
+                    </div>
+                    <div class="guideline-box"><span class="text-orange-300 font-bold text-lg mb-2 block">04</span><h4 class="font-bold mb-2 uppercase text-xs tracking-widest">Literature Focus</h4><p class="text-stone-500 text-sm">Conversations should center on storytelling and reading habits.</p></div>
+                    <div class="guideline-box"><span class="text-orange-300 font-bold text-lg mb-2 block">05</span><h4 class="font-bold mb-2 uppercase text-xs tracking-widest">Respect for All</h4><p class="text-stone-500 text-sm">Kindness to everyone, regardless of background or beliefs.</p></div>
+                    <div class="guideline-box"><span class="text-orange-300 font-bold text-lg mb-2 block">06</span><h4 class="font-bold mb-2 uppercase text-xs tracking-widest">Zero Discrimination</h4><p class="text-stone-500 text-sm">No tolerance for hate speech, racism, or harassment.</p></div>
+                </div>
+                <div class="text-center">
+                    <a href="join.html" class="btn-cta">Apply to Join the Community</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-900 text-stone-400 py-20 px-6">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
+            <div class="text-center md:text-left">
+                <div class="serif text-2xl text-white font-bold tracking-widest mb-4 uppercase">THE BOOK VERSE</div>
+                <p class="text-sm max-w-xs">Building a culture where reading is celebrated and writing is encouraged.</p>
+            </div>
+            <div class="flex gap-10 text-xs font-bold uppercase tracking-widest text-stone-500">
+                <a href="terms.html" class="hover:text-white">Terms</a>
+                <a href="policy.html" class="hover:text-white">Privacy</a>
+            </div>
+        </div>
+        <div class="mt-20 text-center text-[10px] tracking-[0.5em] text-stone-700 uppercase">© 2026 THE BOOK VERSE COMMUNITY</div>
+    </footer>
+
+    <script>
+        function convertGoogleDriveLink(driveLink) {
+            if (!driveLink || typeof driveLink !== 'string') return '';
+            const idMatch = driveLink.match(/[-\w]{25,}/);
+            return idMatch ? `https://lh3.googleusercontent.com/d/${idMatch[0]}` : driveLink;
+        }
+
+        function updateBookState() {
+            const now = new Date();
+            const hour = now.getHours();
+            const bookSection = document.getElementById('interactiveBook');
+            const greeting = document.getElementById('timeGreeting');
+            const zzz = document.getElementById('zzzWrapper');
+            let greetingText = ""; let sleeping = false;
+
+            if (hour >= 20 || hour < 3) { greetingText = "Good Night"; sleeping = true; } 
+            else if (hour >= 3 && hour < 12) { greetingText = "Good Morning"; sleeping = false; }
+            else if (hour >= 12 && hour < 17) { greetingText = "Good Afternoon"; sleeping = false; }
+            else { greetingText = "Good Evening"; sleeping = false; }
+
+            greeting.innerText = greetingText;
+            greeting.style.opacity = "1";
+            if (sleeping) { bookSection.classList.add('is-sleeping'); bookSection.classList.remove('is-awake'); zzz.style.display = "block"; }
+            else { bookSection.classList.add('is-awake'); bookSection.classList.remove('is-sleeping'); zzz.style.display = "none"; }
+        }
+
+        const SHEET_ID = '1z1Lc7Bqw4eJCV19qGYDXF65oBkz8r0AS4k67yzaa_8c';
+        const GVIZ_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=0`;
+
+        async function fetchMembers() {
+            const track = document.getElementById('membersTrack');
+            const container = document.getElementById('marqueeContainer');
+            try {
+                const response = await fetch(GVIZ_URL);
+                const text = await response.text();
+                const jsonString = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+                const jsonData = JSON.parse(jsonString);
+                const images = [];
+                jsonData.table.rows.forEach(row => {
+                    if (row.c) { row.c.forEach(cell => {
+                        if (cell && cell.v && typeof cell.v === 'string' && cell.v.includes('drive.google.com')) images.push(convertGoogleDriveLink(cell.v));
+                    }); }
+                });
+                if (images.length === 0) { track.innerHTML = "<p class='text-stone-400 italic py-10'>Growing soon...</p>"; return; }
+                track.innerHTML = "";
+                if (images.length === 1) { 
+                    container.style.justifyContent = "center"; 
+                    track.appendChild(createMemberFrame(images[0])); 
+                }
+                else {
+                    container.style.justifyContent = "flex-start";
+                    let displaySet = [...images];
+                    while (displaySet.length < 15) displaySet = [...displaySet, ...images];
+                    track.classList.add('scrolling-active');
+                    [...displaySet, ...displaySet].forEach(url => track.appendChild(createMemberFrame(url)));
+                }
+            } catch (err) { track.innerHTML = "<p class='text-red-400 py-10'>Connection error.</p>"; }
+        }
+
+        function createMemberFrame(url) {
+            const el = document.createElement('div'); el.className = "member-frame";
+            const img = document.createElement('img'); img.src = url; img.className = "w-full h-full object-cover";
+            img.onerror = () => img.src = 'https://via.placeholder.com/150?text=User';
+            el.appendChild(img); return el;
+        }
+
+        const menuBtn = document.getElementById('menuBtn'); const sidebar = document.getElementById('sidebar');
+        const closeBtn = document.getElementById('closeBtn'); const overlay = document.getElementById('closeOverlay');
+        const toggle = () => sidebar.classList.toggle('active');
+        menuBtn.onclick = toggle; closeBtn.onclick = toggle; overlay.onclick = toggle;
+
+        window.onload = () => { updateBookState(); fetchMembers(); setInterval(updateBookState, 60000); };
+    </script>
+</body>
+</html>
