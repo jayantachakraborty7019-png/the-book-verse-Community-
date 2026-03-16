@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Book Verse Community</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="https://i.postimg.cc/52T9Pv60/IMG-20260316-122730-637.webp">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts for Premium Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+    <!-- Custom Tailwind Configuration and Styles -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        skin: {
+                            light: '#fdfbf7',  /* Creamy undertone */
+                            base: '#f3e8e0',   /* Soft nude/beige */
+                            dark: '#e0caba',   /* Warm tan */
+                            text: '#4a3b32',   /* Deep taupe/brown for readable contrast */
+                            accent: '#8c6b5d'  /* Muted terracotta/blush brown */
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Lora"', 'serif'], /* Using Lora for body to keep it literary */
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            /* Elegant skin-tone gradient background */
+            background: linear-gradient(135deg, #fdfbf7 0%, #f3e8e0 50%, #e8d8ce 100%);
+            margin: 0;
+            overflow: hidden; /* Prevent scrolling on the landing page */
+        }
+
+        /* Ambient background glow elements to make it look premium */
+        .ambient-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        /* --- Animations --- */
+        @keyframes subtleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes logoReveal {
+            0% { 
+                opacity: 0; 
+                transform: scale(0.85) translateY(40px); 
+                filter: blur(10px);
+            }
+            100% { 
+                opacity: 1; 
+                transform: scale(1) translateY(0); 
+                filter: blur(0);
+            }
+        }
+
+        @keyframes textReveal {
+            0% { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        /* Animation Classes */
+        .animate-logo {
+            animation: logoReveal 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            /* Add subtle float after the reveal finishes */
+            animation-delay: 0.2s;
+        }
+
+        .floating-logo-container {
+            animation: subtleFloat 6s ease-in-out infinite 1.6s;
+        }
+
+        .animate-title {
+            opacity: 0;
+            animation: textReveal 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            animation-delay: 0.8s;
+        }
+
+        .animate-subtitle {
+            opacity: 0;
+            animation: textReveal 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            animation-delay: 1.1s;
+        }
+
+        .animate-button {
+            opacity: 0;
+            animation: textReveal 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            animation-delay: 1.5s;
+        }
+
+        /* Premium button hover effect */
+        .btn-premium {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .btn-premium::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .btn-premium:hover::after {
+            left: 100%;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-skin-text font-sans flex items-center justify-center relative selection:bg-skin-dark selection:text-white">
+
+    <!-- Decorative Ambient Background Elements -->
+    <div class="ambient-glow w-96 h-96 bg-[#ffffff] top-[-10%] left-[-10%]"></div>
+    <div class="ambient-glow w-[30rem] h-[30rem] bg-[#e5d0c0] bottom-[-15%] right-[-10%] opacity-50"></div>
+
+    <main class="relative z-10 flex flex-col items-center justify-center px-6 text-center w-full max-w-4xl mx-auto">
+        
+        <!-- Animated Logo -->
+        <div class="floating-logo-container mb-10">
+            <div class="animate-logo opacity-0">
+                <div class="relative rounded-full p-2 bg-gradient-to-tr from-skin-dark to-skin-light shadow-[0_20px_40px_-15px_rgba(74,59,50,0.3)]">
+                    <img 
+                        src="https://i.postimg.cc/52T9Pv60/IMG-20260316-122730-637.webp" 
+                        alt="The Book Verse Community Logo" 
+                        class="w-48 h-48 md:w-56 md:h-56 object-cover rounded-full border-4 border-skin-light shadow-inner"
+                        draggable="false"
+                    >
+                </div>
+            </div>
+        </div>
+
+        <!-- Typography -->
+        <h1 class="animate-title opacity-0 text-4xl md:text-5xl lg:text-6xl font-serif font-bold tracking-wide text-skin-text mb-4 drop-shadow-sm">
+            The Book Verse Community
+        </h1>
+        
+        <p class="animate-subtitle opacity-0 text-lg md:text-xl text-skin-accent max-w-2xl mx-auto mb-12 italic font-serif">
+            "A sanctuary for pages turned, stories shared, and minds beautifully intertwined."
+        </p>
+
+        <!-- CTA Button -->
+        <div class="animate-button opacity-0 mt-4">
+            <a 
+                href="home.html" 
+                class="btn-premium inline-flex items-center justify-center px-10 py-4 bg-skin-text text-skin-base rounded-full font-sans tracking-[0.15em] uppercase text-sm font-semibold shadow-xl hover:bg-skin-accent hover:shadow-2xl hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-skin-dark focus:ring-opacity-50"
+            >
+                Explore Book Verse
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-3 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </a>
+        </div>
+
+    </main>
+
+</body>
+</html>
