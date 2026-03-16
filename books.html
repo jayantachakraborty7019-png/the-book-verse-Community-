@@ -141,12 +141,19 @@
                     if (i === 0 && (title.toLowerCase().includes('book name') || title === 'Unknown Title')) {
                         continue;
                     }
+
+                    // Grab the buy link and ensure it has http/https to work properly as an external link
+                    let rawBuyLink = getCellValue(row, 5);
+                    if (rawBuyLink && typeof rawBuyLink === 'string' && !rawBuyLink.startsWith('http')) {
+                        rawBuyLink = 'https://' + rawBuyLink;
+                    }
+
                     allBooksData.push({
                         originalImageUrl: getCellValue(row, 1),
                         title: title,
                         author: getCellValue(row, 3) || 'Unknown Author',
                         price: getCellValue(row, 4),
-                        buyLink: getCellValue(row, 5),
+                        buyLink: rawBuyLink,
                         description: getCellValue(row, 6) || 'No description available.',
                         originalIndex: i // Keep track of index for unique IDs
                     });
