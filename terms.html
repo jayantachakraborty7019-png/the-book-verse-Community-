@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions | Parrot Community</title>
+    <style>
+        :root {
+            /* Skin Tone Palette */
+            --skin-light: #fff5eb;
+            --skin-medium: #fce1c6;
+            --skin-dark: #d4a373;
+            
+            /* Parrot Palette */
+            --parrot-green: #2d6a4f;
+            --parrot-red: #e63946;
+            --parrot-orange: #fb8500;
+            --parrot-blue: #219ebc;
+            
+            --text-color: #4a3f35;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--skin-light);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-color);
+            line-height: 1.7;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .page-wrapper {
+            max-width: 900px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 8px solid var(--skin-medium);
+        }
+
+        header {
+            background: var(--parrot-green);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .parrot-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .accent-bar {
+            height: 10px;
+            display: flex;
+        }
+        .bar-1 { flex: 1; background: var(--parrot-red); }
+        .bar-2 { flex: 1; background: var(--parrot-orange); }
+        .bar-3 { flex: 1; background: var(--parrot-blue); }
+
+        main {
+            padding: 50px 60px;
+            background-image: radial-gradient(circle at 90% 10%, rgba(212, 163, 115, 0.1) 0%, transparent 20%);
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed var(--skin-medium);
+            text-align: center;
+        }
+
+        .terms-list {
+            display: grid;
+            gap: 30px;
+        }
+
+        .term-card {
+            padding: 25px;
+            border-radius: 15px;
+            background: var(--skin-light);
+            border-left: 6px solid var(--parrot-green);
+            transition: all 0.3s ease;
+        }
+
+        .term-card:hover {
+            transform: translateY(-5px);
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left-color: var(--parrot-orange);
+        }
+
+        .term-card:nth-child(even) {
+            border-left-color: var(--parrot-blue);
+        }
+
+        .term-card:nth-child(3n) {
+            border-left-color: var(--parrot-red);
+        }
+
+        .term-number {
+            display: inline-block;
+            background: var(--text-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .term-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--parrot-green);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .term-content {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        footer {
+            padding: 40px;
+            text-align: center;
+            background: var(--skin-medium);
+            color: var(--skin-dark);
+            font-weight: 600;
+        }
+
+        .footer-parrot {
+            font-size: 2rem;
+            margin-top: 10px;
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            main {
+                padding: 30px 20px;
+            }
+            header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <header>
+            <span class="parrot-icon">🦜</span>
+            <h1>Terms and Conditions</h1>
+            <p>Our guidelines for a vibrant, creative community</p>
+        </header>
+        
+        <div class="accent-bar">
+            <div class="bar-1"></div>
+            <div class="bar-2"></div>
+            <div class="bar-3"></div>
+        </div>
+
+        <main>
+            <p class="intro-text">
+                Welcome to our sanctuary of words. Please read these terms carefully before spreading your wings in our community.
+            </p>
+
+            <div class="terms-list">
+                <!-- 1 -->
+                <div class="term-card">
+                    <span class="term-number">1</span>
+                    <span class="term-title">Acceptance of Terms</span>
+                    <p class="term-content">By joining and participating in this community, you agree to follow all the rules, guidelines, and policies established for maintaining a respectful and positive environment.</p>
+                </div>
+
+                <!-- 2 -->
+                <div class="term-card">
+                    <span class="term-number">2</span>
+                    <span class="term-title">Purpose of the Community</span>
+                    <p class="term-content">This community exists to encourage reading, writing, and meaningful discussions related to books, literature, poetry, storytelling, and creative ideas.</p>
+                </div>
+
+                <!-- 3 -->
+                <div class="term-card">
+                    <span class="term-number">3</span>
+                    <span class="term-title">Member Responsibilities</span>
+                    <p class="term-content">Members are expected to behave respectfully, communicate politely, and contribute positively to the community.</p>
+                </div>
+
+                <!-- 4 -->
+                <div class="term-card">
+                    <span class="term-number">4</span>
+                    <span class="term-title">Respectful Communication</span>
+                    <p class="term-content">Harassment, hate speech, discrimination, racism, personal attacks, or offensive language toward any member will not be tolerated.</p>
+                </div>
+
+                <!-- 5 -->
+                <div class="term-card">
+                    <span class="term-number">5</span>
+                    <span class="term-title">Content Sharing</span>
+                    <p class="term-content">Members may share their writings, book recommendations, opinions, and literary discussions. However, content that is offensive, harmful, illegal, or unrelated to the purpose of the community is not allowed.</p>
+                </div>
+
+                <!-- 6 -->
+                <div class="term-card">
+                    <span class="term-number">6</span>
+                    <span class="term-title">Intellectual Property</span>
+                    <p class="term-content">Members must respect the ownership of creative work. Do not copy, distribute, or claim someone else’s writing, poems, or ideas without proper credit or permission.</p>
+                </div>
+
+                <!-- 7 -->
+                <div class="term-card">
+                    <span class="term-number">7</span>
+                    <span class="term-title">No Harmful Discussions</span>
+                    <p class="term-content">Political debates, religious arguments, or any controversial discussions that may create conflict or negativity in the community are not permitted.</p>
+                </div>
+
+                <!-- 8 -->
+                <div class="term-card">
+                    <span class="term-number">8</span>
+                    <span class="term-title">No Spam or Unauthorized Promotions</span>
+                    <p class="term-content">Spamming, advertising unrelated services, or excessive self-promotion without permission from the administrators is not allowed.</p>
+                </div>
+
+                <!-- 9 -->
+                <div class="term-card">
+                    <span class="term-number">9</span>
+                    <span class="term-title">Administrator Rights</span>
+                    <p class="term-content">Community administrators reserve the right to moderate discussions, remove inappropriate content, warn members, or remove any member who violates the community rules.</p>
+                </div>
+
+                <!-- 10 -->
+                <div class="term-card">
+                    <span class="term-number">10</span>
+                    <span class="term-title">Privacy and Safety</span>
+                    <p class="term-content">Members should respect the privacy of others and avoid sharing personal information of any member without their consent.</p>
+                </div>
+
+                <!-- 11 -->
+                <div class="term-card">
+                    <span class="term-number">11</span>
+                    <span class="term-title">Changes to Terms</span>
+                    <p class="term-content">The community administrators may update or modify these terms and conditions when necessary to maintain a healthy and safe environment.</p>
+                </div>
+
+                <!-- 12 -->
+                <div class="term-card">
+                    <span class="term-number">12</span>
+                    <span class="term-title">Agreement to Comply</span>
+                    <p class="term-content">By joining and continuing to participate in the community, members confirm that they understand and agree to follow these terms and conditions.</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 The Literary Aviary Community</p>
+            <span class="footer-parrot">🪶</span>
+        </footer>
+    </div>
+
+</body>
+</html>
