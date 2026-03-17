@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Community Members Directory</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --skin-light: #FFF9F5;
+            --skin-light: #FFFBF9;
             --skin-medium: #F3E5D8;
             --skin-warm: #E6D2C1;
             --skin-accent: #C4A484;
-            --text-dark: #4A3E37;
+            --text-dark: #2D241E;
+            --text-muted: #8A7E76;
         }
 
         body {
@@ -21,35 +22,37 @@
             color: var(--text-dark);
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
+        }
+
+        h1, .font-serif {
+            font-family: 'Playfair Display', serif;
         }
 
         /* Card Styles */
         .member-card {
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             background-color: white;
-            border: 1px solid var(--skin-medium);
+            border: 1px solid rgba(196, 164, 132, 0.2);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         .member-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px -15px rgba(196, 164, 132, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -15px rgba(196, 164, 132, 0.15);
             border-color: var(--skin-accent);
         }
 
         .image-frame {
             position: relative;
-            width: 180px;
-            height: 180px;
+            width: 130px;
+            height: 130px;
             margin: 0 auto;
             border-radius: 50%;
-            padding: 6px;
+            padding: 4px;
             background: linear-gradient(135deg, var(--skin-medium), var(--skin-accent));
-            box-shadow: 0 10px 20px -5px rgba(196, 164, 132, 0.3);
-        }
-
-        .image-frame-large {
-            width: 320px;
-            height: 320px;
         }
 
         .image-inner {
@@ -57,175 +60,153 @@
             height: 100%;
             border-radius: 50%;
             overflow: hidden;
-            border: 4px solid white;
-            background-color: #f3f4f6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border: 3px solid white;
+            background-color: #f8fafc;
         }
 
         .category-badge {
-            background-color: var(--skin-medium);
             color: var(--skin-accent);
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            font-size: 7.5px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--skin-medium);
+            padding-bottom: 2px;
         }
 
-        /* View Transitions */
-        .view-section {
-            transition: opacity 0.4s ease, transform 0.4s ease;
+        .filter-btn {
+            transition: all 0.3s ease;
+            color: var(--text-muted);
+            font-size: 8.5px;
+            letter-spacing: 0.12em;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
-        .hidden-view {
-            display: none;
-            opacity: 0;
-            transform: translateY(20px);
+        .filter-btn.active {
+            color: var(--text-dark);
+            border-bottom: 1.5px solid var(--text-dark);
+        }
+
+        /* Action Buttons */
+        .btn-premium {
+            transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1);
+            font-size: 8px;
+            letter-spacing: 0.12em;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-1.5px);
+            opacity: 0.9;
+        }
+
+        .btn-outline {
+            border: 1px solid var(--skin-medium);
+            color: var(--text-dark);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--skin-light);
+            border-color: var(--skin-accent);
         }
 
         .loader {
             border-top-color: var(--skin-accent);
-            animation: spinner 1.5s linear infinite;
+            animation: spinner 1.2s linear infinite;
         }
 
         @keyframes spinner {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        .btn-premium {
-            background: var(--text-dark);
-            color: white;
-            box-shadow: 0 10px 25px -5px rgba(74, 62, 55, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .btn-premium:hover {
-            background: var(--skin-accent);
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px -5px rgba(196, 164, 132, 0.4);
-        }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- HOME VIEW: The Directory Grid -->
-    <section id="home-view" class="view-section">
-        <header class="py-20 px-6 text-center">
+    <section class="min-h-screen">
+        <header class="py-12 px-6 text-center">
             <div class="max-w-4xl mx-auto">
-                <span class="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-[0.2em] text-stone-500 uppercase">
-                    Premium Community
+                <span class="inline-block mb-3 text-[8px] font-bold tracking-[0.4em] text-stone-400 uppercase">
+                    The 2026 Community Registry
                 </span>
-                <h1 class="text-4xl md:text-6xl font-light tracking-tight text-stone-800 mb-6">
+                <h1 class="text-3xl md:text-5xl font-light text-stone-900 mb-8 tracking-tight">
                     View Our Members
                 </h1>
-                <div class="w-16 h-1 bg-stone-300 mx-auto mb-8"></div>
-                <p class="text-lg text-stone-500 max-w-2xl mx-auto leading-relaxed italic">
-                    A community built on excellence and shared vision.
-                </p>
+                
+                <div class="flex flex-wrap justify-center gap-6 mt-6">
+                    <button onclick="setFilter('All')" class="filter-btn active px-2 py-1">All</button>
+                    <button onclick="setFilter('Author')" class="filter-btn px-2 py-1">Author</button>
+                    <button onclick="setFilter('Readers')" class="filter-btn px-2 py-1">Readers</button>
+                    <button onclick="setFilter('Reviewer')" class="filter-btn px-2 py-1">Reviewer</button>
+                    <button onclick="setFilter('Other')" class="filter-btn px-2 py-1">Other</button>
+                </div>
             </div>
         </header>
 
         <main class="max-w-7xl mx-auto px-6 pb-24">
+            <!-- Loading -->
             <div id="loading" class="flex flex-col items-center justify-center py-20">
-                <div class="loader ease-linear rounded-full border-4 border-stone-200 h-12 w-12 mb-4"></div>
-                <p class="text-stone-400 uppercase tracking-widest text-xs font-bold">Synchronizing Directory</p>
+                <div class="loader ease-linear rounded-full border-2 border-stone-200 h-8 w-8 mb-4"></div>
+                <p class="text-stone-400 uppercase tracking-[0.3em] text-[7px] font-bold">Connecting Registry</p>
             </div>
 
-            <div id="members-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 hidden">
+            <!-- Grid -->
+            <div id="members-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
                 <!-- Cards injected here -->
             </div>
-
-            <div id="error-container" class="hidden text-center py-20">
-                <div class="bg-red-50 text-red-700 p-8 rounded-3xl inline-block max-w-md border border-red-100">
-                    <p class="font-bold mb-2">Access Interrupted</p>
-                    <p class="text-sm opacity-80">Unable to load membership data.</p>
-                </div>
-            </div>
         </main>
 
-        <footer class="py-16 border-t border-stone-200 text-center">
-            <p class="text-stone-400 text-xs tracking-widest uppercase">&copy; 2026 Membership Community &bull; Professional Directory</p>
+        <footer class="py-12 border-t border-stone-100 text-center">
+            <p class="text-stone-400 text-[7px] tracking-[0.4em] uppercase font-bold">&copy; 2026 Membership Community Professional Directory</p>
         </footer>
-    </section>
-
-    <!-- DETAIL VIEW: Full Screen Profile Page -->
-    <section id="detail-view" class="view-section hidden-view min-h-screen flex flex-col">
-        <nav class="p-8">
-            <button onclick="showHome()" class="flex items-center text-stone-500 hover:text-stone-800 transition-colors group">
-                <svg class="w-5 h-5 mr-2 transform transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                </svg>
-                <span class="text-xs font-bold uppercase tracking-widest">Back to Directory</span>
-            </button>
-        </nav>
-
-        <main class="flex-grow flex items-center justify-center px-6 py-12">
-            <div class="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-                <!-- Profile Image Area -->
-                <div class="flex justify-center md:justify-end">
-                    <div class="image-frame image-frame-large">
-                        <div class="image-inner">
-                            <img id="detail-img" src="" alt="" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Profile Info Area -->
-                <div class="text-center md:text-left">
-                    <span id="detail-category" class="category-badge px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-6 inline-block"></span>
-                    <h2 id="detail-name" class="text-5xl md:text-7xl font-light text-stone-800 mb-10 leading-tight"></h2>
-                    
-                    <div class="pt-4">
-                        <a href="books.html" class="btn-premium inline-block px-12 py-5 rounded-full text-sm font-bold uppercase tracking-[0.2em] shadow-xl">
-                            View the Book
-                        </a>
-                    </div>
-
-                    <div class="mt-16 pt-12 border-t border-stone-200">
-                        <p class="text-stone-400 text-xs italic">Member of the 2026 Community Excellence Circle</p>
-                    </div>
-                </div>
-            </div>
-        </main>
     </section>
 
     <script>
         let allMembers = [];
+        let currentFilter = 'All';
 
         function getDriveImageUrl(link) {
             if (!link) return null;
             const match = String(link).match(/[-\w]{25,}/);
             const fileId = match ? match[0] : null;
-            return fileId ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w1200` : link;
+            return fileId ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000` : link;
         }
 
-        function showDetail(index) {
-            const member = allMembers[index];
-            const homeView = document.getElementById('home-view');
-            const detailView = document.getElementById('detail-view');
-
-            document.getElementById('detail-name').innerText = member.name;
-            document.getElementById('detail-category').innerText = member.category;
-            document.getElementById('detail-img').src = member.finalImg;
-
-            homeView.classList.add('hidden-view');
-            detailView.classList.remove('hidden-view');
-            detailView.classList.add('flex');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function normalize(str) {
+            return String(str || '').trim().toLowerCase();
         }
 
-        function showHome() {
-            const homeView = document.getElementById('home-view');
-            const detailView = document.getElementById('detail-view');
+        function setFilter(category) {
+            currentFilter = category;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                const btnText = btn.innerText.trim().toLowerCase();
+                const filterText = category.trim().toLowerCase();
+                if (btnText === filterText) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            renderGrid();
+        }
 
-            detailView.classList.add('hidden-view');
-            detailView.classList.remove('flex');
-            homeView.classList.remove('hidden-view');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function getFilteredMembers() {
+            const filterNorm = normalize(currentFilter);
+            if (filterNorm === 'all') return allMembers;
+            return allMembers.filter(member => {
+                const catNorm = normalize(member.category);
+                // Substring check to handle extra spaces in sheet data
+                return catNorm.includes(filterNorm) || filterNorm.includes(catNorm);
+            });
         }
 
         async function fetchMembers() {
             const sheetId = '1z1Lc7Bqw4eJCV19qGYDXF65oBkz8r0AS4k67yzaa_8c';
-            const gid = '0';
-            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&gid=${gid}`;
+            const targetGid = '2'; // 3rd Tab
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&gid=${targetGid}`;
 
             try {
                 const response = await fetch(url);
@@ -233,26 +214,31 @@
                 const jsonStr = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
                 const data = JSON.parse(jsonStr);
                 
+                // MAPPING:
+                // Col 1 (Index 0): Timestamp
+                // Col 2 (Index 1): Image
+                // Col 3 (Index 2): Category
+                // Col 4 (Index 3): Name
+                // Col 5 (Index 4): Phone Number
+                // Col 6 (Index 5): Social Media Link
                 allMembers = data.table.rows.filter(row => row.c && row.c[2]).map(row => {
                     const c = row.c;
-                    const name = c[2] ? (c[2].v || c[2].f) : 'Private Member';
-                    const category = c[3] ? (c[3].v || c[3].f) : 'Community Member';
                     const rawImageUrl = c[1] ? (c[1].v || c[1].f) : null;
-                    const imageUrl = getDriveImageUrl(rawImageUrl);
-                    const fallbackUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=F3E5D8&color=C4A484&size=512`;
+                    const category = c[2] ? (c[2].v || c[2].f) : 'Other';
+                    const name = c[3] ? (c[3].v || c[3].f) : 'Private Member';
+                    const phone = c[4] ? (c[4].v || c[4].f) : ''; 
+                    const social = c[5] ? (c[5].v || c[5].f) : ''; 
                     
-                    return {
-                        name,
-                        category,
-                        finalImg: imageUrl || fallbackUrl
-                    };
+                    const imageUrl = getDriveImageUrl(rawImageUrl);
+                    const fallbackUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=F3E5D8&color=C4A484&size=400`;
+                    
+                    return { name, category, phone, social, finalImg: imageUrl || fallbackUrl };
                 });
 
                 renderGrid();
             } catch (err) {
-                console.error(err);
-                document.getElementById('loading').classList.add('hidden');
-                document.getElementById('error-container').classList.remove('hidden');
+                console.error("Connectivity issue", err);
+                document.getElementById('loading').innerHTML = `<p class="text-stone-400 text-[8px]">REGISTRY LINK INTERRUPTED</p>`;
             }
         }
 
@@ -261,35 +247,57 @@
             const loading = document.getElementById('loading');
             grid.innerHTML = '';
 
-            allMembers.forEach((member, index) => {
+            const filtered = getFilteredMembers();
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-24 text-center text-stone-400 italic text-[9px] uppercase tracking-widest">No matching entries found</div>`;
+            }
+
+            filtered.forEach((member) => {
+                const catNorm = normalize(member.category);
+                const isAuthor = catNorm.includes('author');
+                const cleanPhone = member.phone ? String(member.phone).replace(/\D/g, '') : '';
+                const waLink = cleanPhone ? `https://wa.me/${cleanPhone}` : '#';
+                const socialLink = member.social || '#';
+
                 const card = `
-                    <div class="member-card rounded-[40px] p-10 flex flex-col items-center text-center">
-                        <div class="image-frame mb-8">
+                    <div class="member-card rounded-[25px] p-6 text-center">
+                        <div class="image-frame mb-5">
                             <div class="image-inner">
                                 <img 
                                     src="${member.finalImg}" 
                                     alt="${member.name}" 
-                                    class="w-full h-full object-cover transition-opacity duration-500"
+                                    class="w-full h-full object-cover transition-opacity duration-700"
                                     onload="this.style.opacity=1"
-                                    style="opacity: 0;"
-                                    onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=F3E5D8&color=C4A484&size=256'; this.style.opacity=1;"
+                                    style="opacity: 0"
+                                    onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=F3E5D8&color=C4A484&size=200'; this.style.opacity=1"
                                 >
                             </div>
                         </div>
                         
-                        <span class="category-badge px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-4">
+                        <span class="category-badge mb-3 inline-block">
                             ${member.category}
                         </span>
 
-                        <h3 class="text-2xl font-semibold text-stone-800 mb-8">${member.name}</h3>
+                        <h3 class="text-base font-light text-stone-900 mb-6 tracking-tight leading-tight">${member.name}</h3>
                         
-                        <div class="mt-auto">
-                            <button 
-                                onclick="showDetail(${index})"
-                                class="bg-stone-800 text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-stone-600 transition-all shadow-lg hover:shadow-xl active:scale-95"
-                            >
-                                View Profile
-                            </button>
+                        <div class="mt-auto space-y-2">
+                            <!-- Reach Out Button -->
+                            <a href="${waLink}" target="_blank" class="btn-premium block w-full bg-stone-900 text-white py-2.5 rounded-full shadow-sm">
+                                Reach Out
+                            </a>
+                            
+                            <!-- Know More Button -->
+                            <a href="${socialLink}" target="_blank" class="btn-premium btn-outline block w-full py-2.5 rounded-full">
+                                Know more about the member
+                            </a>
+
+                            <!-- Author Button -->
+                            ${isAuthor ? `
+                            <a href="books.html" class="btn-premium block w-full bg-indigo-600 text-white py-2.5 rounded-full shadow-sm">
+                                View the Book
+                            </a>
+                            ` : ''}
                         </div>
                     </div>
                 `;
