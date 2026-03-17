@@ -14,7 +14,7 @@
             --skin-medium: #f3e5db;
             --skin-accent: #d7b59a;
             --text-dark: #2d241e;
-            --text-muted: #6b5a4d;
+            --book-cover: #a67c52;
             --book-pages: #fffdfa;
             --sun-color: #ffce54;
             --moon-color: #fdfdfd;
@@ -28,9 +28,7 @@
             scroll-behavior: smooth;
         }
 
-        h1, h2, h3, h4, .serif {
-            font-family: 'Playfair Display', serif;
-        }
+        h1, h2, h3, h4, .serif { font-family: 'Playfair Display', serif; }
 
         .glass-nav {
             background: rgba(253, 248, 245, 0.8);
@@ -49,124 +47,144 @@
             transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
             transform: translateX(-100%);
         }
-
         .nav-overlay.active { transform: translateX(0); }
 
-        /* --- TIME-BASED BOOK & CELESTIAL ANIMATION --- */
-        .book-section { 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            padding: 40px 0; 
-            position: relative; 
-            overflow: visible;
+        /* --- ADVANCED CHARACTER & CELESTIAL ANIMATION --- */
+        .book-character-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 0;
+            position: relative;
         }
 
         .sky-scene {
             position: absolute;
             top: 0;
-            width: 300px;
-            height: 150px;
+            width: 100%;
+            max-width: 500px;
+            height: 200px;
             pointer-events: none;
-            z-index: 0;
         }
 
         .celestial-body {
             position: absolute;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
-            filter: blur(1px);
+            transition: all 2.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 1;
         }
 
-        /* Sun glow */
         .is-day .celestial-body {
             background: var(--sun-color);
-            box-shadow: 0 0 30px var(--sun-color), 0 0 60px rgba(255, 206, 84, 0.4);
+            box-shadow: 0 0 40px var(--sun-color), 0 0 80px rgba(255, 206, 84, 0.3);
         }
 
-        /* Moon glow & crescent effect */
         .is-night .celestial-body {
             background: var(--moon-color);
-            box-shadow: 0 0 20px var(--moon-color), 0 0 40px rgba(253, 248, 245, 0.3);
+            box-shadow: 0 0 20px var(--moon-color), 0 0 40px rgba(255, 255, 255, 0.2);
         }
 
-        .book-container { 
-            position: relative; 
-            width: 160px; 
-            height: 120px; 
-            transform-origin: bottom center; 
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); 
+        .character-container {
+            position: relative;
+            width: 150px;
+            height: 180px;
             z-index: 10;
+            transform-origin: bottom center;
         }
 
-        .is-sleeping .book-container { animation: breathe 5s ease-in-out infinite; }
-        .zzz-container { position: absolute; top: -30px; right: 0; pointer-events: none; display: none; }
-        .zzz { position: absolute; color: var(--skin-accent); font-weight: bold; opacity: 0; }
-        .zzz:nth-child(1) { animation: sleep-float 4s infinite 0s; font-size: 14px; }
-        .zzz:nth-child(2) { animation: sleep-float 4s infinite 1.2s; font-size: 18px; }
-        .zzz:nth-child(3) { animation: sleep-float 4s infinite 2.4s; font-size: 24px; }
+        /* Breathing Animation */
+        .is-sleeping .character-container { animation: breathe 4s ease-in-out infinite; }
 
-        @keyframes breathe { 0%, 100% { transform: scale(1) translateY(0); } 50% { transform: scale(1.04) translateY(-5px); } }
-        @keyframes sleep-float { 0% { transform: translate(0, 0) rotate(0deg); opacity: 0; } 20% { opacity: 0.6; } 100% { transform: translate(30px, -60px) rotate(15deg); opacity: 0; } }
+        @keyframes breathe {
+            0%, 100% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.03) translateY(-5px); }
+        }
 
-        #timeGreeting { font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; font-weight: 800; color: var(--skin-accent); margin-top: 15px; opacity: 0; transition: opacity 1s ease; }
-        .eye-closed { display: block; } .eye-open { display: none; }
-        .is-awake .eye-closed { display: none; } .is-awake .eye-open { display: block; }
+        /* Hand Waving Animation */
+        .hand-shaking {
+            transform-origin: top center;
+            animation: wave 1.5s ease-in-out infinite;
+            display: none;
+        }
+        .is-awake .hand-shaking { display: block; }
 
-        /* --- MARQUEE --- */
-        .marquee-container { overflow: hidden; white-space: nowrap; position: relative; padding: 20px 0; background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent); display: flex; justify-content: center; }
-        .marquee-track { display: flex; width: max-content; align-items: center; justify-content: center; }
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(25deg); }
+        }
+
+        .hi-bubble {
+            position: absolute;
+            top: -20px;
+            left: 110px;
+            background: var(--text-dark);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .is-awake .hi-bubble { opacity: 1; }
+
+        /* Zzz for sleep */
+        .zzz-container { position: absolute; top: -30px; right: -10px; pointer-events: none; display: none; }
+        .is-sleeping .zzz-container { display: block; }
+        .zzz { position: absolute; color: var(--skin-accent); font-weight: bold; opacity: 0; animation: sleep-float 3s infinite; }
+        .zzz:nth-child(1) { animation-delay: 0s; font-size: 14px; }
+        .zzz:nth-child(2) { animation-delay: 1s; font-size: 18px; }
+        .zzz:nth-child(3) { animation-delay: 2s; font-size: 22px; }
+
+        @keyframes sleep-float {
+            0% { transform: translate(0,0); opacity: 0; }
+            20% { opacity: 0.5; }
+            100% { transform: translate(30px, -50px); opacity: 0; }
+        }
+
+        /* --- UI ELEMENTS --- */
+        .marquee-track { display: flex; width: max-content; }
         .scrolling-active { animation: scroll 40s linear infinite; }
-        .marquee-track:hover { animation-play-state: paused; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .member-frame { width: 120px; height: 120px; border: 3px solid white; border-radius: 50%; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); flex-shrink: 0; margin: 0 20px; transition: all 0.4s ease; }
+
+        .member-frame {
+            width: 120px; height: 120px; border: 3px solid white; border-radius: 50%;
+            overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            flex-shrink: 0; margin: 0 20px; transition: all 0.4s ease;
+            cursor: pointer;
+        }
         .member-frame:hover { transform: scale(1.1); border-color: var(--skin-accent); }
 
         .btn-cta {
-            background-color: var(--text-dark);
-            color: white;
-            padding: 18px 48px;
-            border-radius: 100px;
-            transition: all 0.4s ease;
-            display: inline-block;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            text-align: center;
+            background-color: var(--text-dark); color: white; padding: 18px 48px;
+            border-radius: 100px; transition: all 0.4s ease; font-weight: 600;
         }
+        .btn-cta:hover { background-color: var(--skin-accent); transform: translateY(-3px); }
 
-        .btn-cta:hover {
-            background-color: var(--skin-accent);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(215, 181, 154, 0.4);
-        }
-
-        .motivation-box {
-            border-top: 1px solid #f0ece9;
-            border-bottom: 1px solid #f0ece9;
-            padding: 40px 0;
-            margin-bottom: 40px;
-        }
+        #timeGreeting { font-size: 0.75rem; letter-spacing: 0.4em; text-transform: uppercase; font-weight: 800; color: var(--skin-accent); margin-top: 20px; opacity: 0; }
     </style>
 </head>
 <body class="antialiased">
 
+    <!-- Header -->
     <header class="fixed w-full top-0 z-50 px-6 py-4 glass-nav">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <button id="menuBtn" class="p-2 hover:bg-orange-50 rounded-full transition-colors">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                <i class="fas fa-bars text-xl text-stone-700"></i>
             </button>
-            <div class="serif font-black text-xl tracking-[0.15em] text-stone-800 uppercase">THE BOOK VERSE</div>
+            <div class="serif font-black text-xl tracking-[0.2em] text-stone-800 uppercase">THE BOOK VERSE</div>
             <div class="w-10"></div>
         </div>
     </header>
 
+    <!-- Sidebar -->
     <div id="sidebar" class="nav-overlay fixed inset-0 z-[60] flex">
         <div class="w-full max-w-sm h-full bg-white shadow-2xl p-10 flex flex-col">
             <div class="flex justify-between items-center mb-16">
-                <span class="text-xs font-bold tracking-widest text-stone-400">MENU</span>
+                <span class="text-xs font-bold tracking-widest text-stone-400">NAVIGATION</span>
                 <button id="closeBtn" class="text-3xl leading-none">×</button>
             </div>
             <nav class="space-y-6">
@@ -184,38 +202,59 @@
     </div>
 
     <main class="pt-32">
-        
-        <section class="max-w-4xl mx-auto px-6 text-center mb-24">
-            <div class="inline-block relative mb-12">
-                <div class="absolute -inset-4 bg-orange-100 rounded-full blur-2xl opacity-40"></div>
-                <img src="https://i.postimg.cc/52T9Pv60/IMG-20260316-122730-637.webp" alt="Logo" class="relative w-40 h-40 object-cover rounded-full border-4 border-white shadow-xl">
+        <!-- Hero Section with Character -->
+        <section class="max-w-5xl mx-auto px-6 text-center mb-24">
+            <div class="inline-block relative mb-8">
+                <img src="https://i.postimg.cc/52T9Pv60/IMG-20260316-122730-637.webp" alt="Logo" class="relative w-32 h-32 object-cover rounded-full border-4 border-white shadow-lg">
             </div>
 
-            <!-- Intelligent Book & Celestial Animation -->
-            <div id="interactiveBook" class="book-section">
+            <div id="characterWrap" class="book-character-section is-awake">
                 <div class="sky-scene">
                     <div id="celestialBody" class="celestial-body"></div>
                 </div>
-                <div id="zzzWrapper" class="zzz-container"><span class="zzz">Z</span><span class="zzz">z</span><span class="zzz">z</span></div>
-                <div class="book-container">
-                    <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M100 30 C130 30, 160 35, 180 45 L180 125 C160 115, 130 110, 100 110 Z" fill="var(--book-pages)" />
-                        <path d="M100 30 C70 30, 40 35, 20 45 L20 125 C40 115, 70 110, 100 110 Z" fill="var(--book-pages)" />
-                        <path d="M20 125 L20 130 C40 120, 70 115, 100 115 C130 115, 160 120, 180 130 L180 125 C160 115, 130 110, 100 110 C70 110, 40 115, 20 125" fill="#5d3e2a" />
-                        <path d="M98 30 L98 115 L102 115 L102 30 Z" fill="#4a3728" opacity="0.2" />
+                
+                <div class="character-container">
+                    <div id="hiBubble" class="hi-bubble">HI!</div>
+                    <div class="zzz-container">
+                        <span class="zzz">Z</span><span class="zzz">z</span><span class="zzz">z</span>
+                    </div>
+                    
+                    <svg viewBox="0 0 150 180" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Closed Notebook Body -->
+                        <rect x="35" y="40" width="80" height="110" rx="6" fill="var(--book-cover)" stroke="#8b633a" stroke-width="2"/>
+                        <!-- Spine -->
+                        <path d="M35 40 Q30 40 30 46 L30 144 Q30 150 35 150 Z" fill="#8b633a" />
+                        <!-- Page Edges (Visible on side) -->
+                        <rect x="110" y="44" width="5" height="102" fill="#f0e6dc" rx="1"/>
+                        <!-- Bookmark Ribbon -->
+                        <path d="M85 40 L85 60 L92 53 L99 60 L99 40 Z" fill="#d7b59a" />
+                        
+                        <!-- Eyes -->
                         <g class="eyes">
-                            <path class="eye-closed" d="M60 70 Q65 75 70 70" fill="none" stroke="var(--text-dark)" stroke-width="2.5" stroke-linecap="round" />
-                            <circle class="eye-open" cx="65" cy="70" r="4" fill="var(--text-dark)" />
-                            <path class="eye-closed" d="M130 70 Q135 75 140 70" fill="none" stroke="var(--text-dark)" stroke-width="2.5" stroke-linecap="round" />
-                            <circle class="eye-open" cx="135" cy="70" r="4" fill="var(--text-dark)" />
+                            <!-- Sleeping State -->
+                            <path class="eye-closed" d="M55 85 Q60 90 65 85" fill="none" stroke="#2d241e" stroke-width="2" stroke-linecap="round" />
+                            <path class="eye-closed" d="M85 85 Q90 90 95 85" fill="none" stroke="#2d241e" stroke-width="2" stroke-linecap="round" />
+                            <!-- Awake State -->
+                            <circle class="eye-open" cx="60" cy="85" r="4" fill="#2d241e" style="display:none;"/>
+                            <circle class="eye-open" cx="90" cy="85" r="4" fill="#2d241e" style="display:none;"/>
                         </g>
+
+                        <!-- Hands -->
+                        <!-- Left Hand (Shaking) -->
+                        <g class="hand-shaking">
+                            <path d="M115 110 Q135 110 135 125" fill="none" stroke="#d7b59a" stroke-width="4" stroke-linecap="round" />
+                            <circle cx="135" cy="125" r="5" fill="#d7b59a" />
+                        </g>
+                        <!-- Static Right Hand -->
+                        <path d="M35 110 Q15 110 15 120" fill="none" stroke="#d7b59a" stroke-width="4" stroke-linecap="round" />
+                        <circle cx="15" cy="120" r="5" fill="#d7b59a" />
                     </svg>
                 </div>
-                <div id="timeGreeting">Determining Time...</div>
+                <div id="timeGreeting">Checking...</div>
             </div>
 
-            <h1 class="text-5xl md:text-7xl font-black mt-8 text-stone-900 leading-tight uppercase">THE BOOK VERSE COMMUNITY</h1>
-            <p class="mt-6 text-stone-500 text-lg max-w-2xl mx-auto leading-relaxed">A sanctuary for the written word, built by creators for creators.</p>
+            <h1 class="text-5xl md:text-7xl font-black mt-4 text-stone-900 leading-tight uppercase">THE BOOK VERSE COMMUNITY</h1>
+            <p class="mt-6 text-stone-500 text-lg max-w-2xl mx-auto">Where every book is a friend and every writer finds a home.</p>
         </section>
 
         <!-- Members Section -->
@@ -224,253 +263,160 @@
                 <h2 class="text-3xl font-bold serif italic mb-2">Our Community Members</h2>
                 <div class="w-12 h-1 bg-orange-200 mx-auto mb-6"></div>
             </div>
-            <div class="marquee-container" id="marqueeContainer">
+            <div class="marquee-container overflow-hidden bg-white/40 py-10" id="marqueeContainer">
                 <div id="membersTrack" class="marquee-track">
-                    <div class="flex items-center justify-center w-full py-10 opacity-30"><i class="fas fa-circle-notch fa-spin text-2xl"></i></div>
+                    <div class="flex items-center justify-center w-full py-10 opacity-30"><i class="fas fa-spinner fa-spin text-2xl"></i></div>
                 </div>
-            </div>
-            <div class="text-center mt-10">
-                <a href="member.html" class="text-xs font-bold border-b border-stone-200 hover:border-orange-400 transition-all pb-1 uppercase tracking-[0.2em] text-stone-500">Discover Active Members</a>
             </div>
         </section>
 
-        <!-- Dynamic Motivation Section (Placed above About) -->
+        <!-- Motivation Section -->
         <section class="max-w-4xl mx-auto px-6 mb-20 text-center">
-            <div class="motivation-box">
-                <span class="text-orange-400 text-xs font-bold tracking-[0.4em] uppercase block mb-6">Literary Inspiration</span>
-                <h3 class="text-2xl md:text-4xl italic text-stone-800 leading-snug font-serif px-4" id="motivationQuote">
-                    "Loading your daily dose of wisdom..."
-                </h3>
+            <div class="py-12 border-y border-stone-100">
+                <span class="text-orange-400 text-xs font-bold tracking-[0.4em] uppercase block mb-6">Wise Words</span>
+                <h3 class="text-2xl md:text-3xl italic text-stone-800 leading-snug font-serif" id="motivationQuote">"Magic happens every time you open a book."</h3>
             </div>
         </section>
 
         <!-- About Section -->
         <section class="max-w-5xl mx-auto px-6 mb-24">
             <div class="premium-card p-10 md:p-16">
-                <h2 class="text-4xl font-bold mb-10 serif italic text-center text-stone-800">About the Community</h2>
-                <div class="space-y-8 text-stone-600 leading-relaxed text-lg max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold mb-8 serif italic text-center text-stone-800">About the Community</h2>
+                <div class="space-y-6 text-stone-600 leading-relaxed text-lg max-w-3xl mx-auto">
                     <p>This community is created for people who truly love books, ideas, and creative expression. It is a space where readers and writers can come together to share their thoughts, discover meaningful books, and inspire each other through literature.</p>
                     <p>Our goal is to build a supportive environment where creativity and knowledge grow together. Readers can explore new perspectives through books, while writers can share their poems, stories, and ideas with people who appreciate the art of words.</p>
-                    <p>We believe that books have the power to shape minds, inspire change, and connect people from different backgrounds. In this community, members can discuss books, share recommendations, exchange writing ideas, and help each other improve.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Identity & Purpose Section -->
+        <!-- Identity Section -->
         <section class="max-w-5xl mx-auto px-6 mb-32">
             <div class="grid md:grid-cols-12 gap-12 items-center">
                 <div class="md:col-span-5 text-center md:text-left">
-                    <h2 class="text-4xl font-black text-stone-900 leading-tight mb-6 uppercase">Who We Are & <br><span class="text-orange-400 serif italic font-normal">Our Motive</span></h2>
-                    <p class="text-stone-500 leading-relaxed mb-10">We are a collective of independent thinkers, authors, and bibliophiles dedicated to preserving the sanctity of storytelling in a digital age.</p>
-                    <a href="join.html" class="btn-cta mb-8">Join Our Story</a>
-                    <div class="h-1 w-20 bg-orange-200 mx-auto md:mx-0 mt-8"></div>
+                    <h2 class="text-4xl font-black text-stone-900 leading-tight mb-6 uppercase">Who We Are & <br><span class="text-orange-400 serif italic">Our Motive</span></h2>
+                    <p class="text-stone-500 leading-relaxed mb-10">We are a collective of authors and bibliophiles dedicated to preserving the sanctity of storytelling.</p>
+                    <a href="join.html" class="btn-cta">Join Our Story</a>
                 </div>
-                <div class="md:col-span-7 bg-white p-12 rounded-[40px] border border-stone-100 shadow-sm">
-                    <div class="mb-10">
-                        <h4 class="text-xl font-bold mb-3 flex items-center gap-3 uppercase tracking-wide">
-                            <i class="fas fa-pen-nib text-orange-300"></i> Supporting Writers
-                        </h4>
-                        <p class="text-stone-500 text-sm leading-relaxed">Providing a launchpad for emerging voices with constructive feedback and audience connection.</p>
-                    </div>
-                    <div class="mb-10">
-                        <h4 class="text-xl font-bold mb-3 flex items-center gap-3 uppercase tracking-wide">
-                            <i class="fas fa-book-open text-orange-300"></i> Literature Advocacy
-                        </h4>
-                        <p class="text-stone-500 text-sm leading-relaxed">Championing literature as a tool for social and personal transformation through deep discussion.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-bold mb-3 flex items-center gap-3 uppercase tracking-wide">
-                            <i class="fas fa-lightbulb text-orange-300"></i> Important Topics
-                        </h4>
-                        <p class="text-stone-500 text-sm leading-relaxed">Tackling storytelling techniques and the evolution of publishing for the modern literary world.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Guidelines Section -->
-        <section class="bg-white border-t border-stone-100 py-24 px-6">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-20">
-                    <h2 class="text-4xl font-bold mb-4 uppercase tracking-tight">Community Guidelines</h2>
-                    <p class="text-stone-400 max-w-xl mx-auto">Maintaining an inspiring and safe environment for all members.</p>
-                </div>
-                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-                    <div class="p-8 bg-stone-50 rounded-3xl">
-                        <span class="text-orange-300 font-bold text-lg mb-2 block">01</span>
-                        <h4 class="font-bold mb-2 uppercase text-xs tracking-widest">For Readers & Writers</h4>
-                        <p class="text-stone-500 text-sm">Created for passionate creators of books, poems, and stories.</p>
-                    </div>
-                    <div class="p-8 bg-stone-50 rounded-3xl">
-                        <span class="text-orange-300 font-bold text-lg mb-2 block">02</span>
-                        <h4 class="font-bold mb-2 uppercase text-xs tracking-widest">Supportive Space</h4>
-                        <p class="text-stone-500 text-sm">Support others and expect the same respect in return.</p>
-                    </div>
-                    <div class="p-8 bg-stone-50 rounded-3xl">
-                        <span class="text-orange-300 font-bold text-lg mb-2 block">03</span>
-                        <h4 class="font-bold mb-2 uppercase text-xs tracking-widest">No Debates</h4>
-                        <p class="text-stone-500 text-sm">Strictly no political, religious, or controversial discussions.</p>
-                    </div>
-                    <div class="p-8 bg-stone-50 rounded-3xl"><span class="text-orange-300 font-bold text-lg mb-2 block">04</span><h4 class="font-bold mb-2 uppercase text-xs tracking-widest">Literature Focus</h4><p class="text-stone-500 text-sm">Conversations stay on storytelling and reading habits.</p></div>
-                    <div class="p-8 bg-stone-50 rounded-3xl"><span class="text-orange-300 font-bold text-lg mb-2 block">05</span><h4 class="font-bold mb-2 uppercase text-xs tracking-widest">Respect for All</h4><p class="text-stone-500 text-sm">Kindness to everyone, regardless of background.</p></div>
-                    <div class="p-8 bg-stone-50 rounded-3xl"><span class="text-orange-300 font-bold text-lg mb-2 block">06</span><h4 class="font-bold mb-2 uppercase text-xs tracking-widest">Zero Discrimination</h4><p class="text-stone-500 text-sm">No tolerance for hate speech, racism, or harassment.</p></div>
-                </div>
-                <div class="text-center">
-                    <a href="join.html" class="btn-cta">Apply to Join Today</a>
+                <div class="md:col-span-7 bg-white p-12 rounded-[40px] border border-stone-100 shadow-sm space-y-8">
+                    <div><h4 class="font-bold text-xl mb-2 flex items-center gap-3"><i class="fas fa-pen-nib text-orange-300"></i> Supporting Writers</h4><p class="text-stone-500 text-sm">Providing a launchpad for emerging voices with constructive feedback.</p></div>
+                    <div><h4 class="font-bold text-xl mb-2 flex items-center gap-3"><i class="fas fa-book-open text-orange-300"></i> Literature Advocacy</h4><p class="text-stone-500 text-sm">Championing literature as a tool for personal transformation.</p></div>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <footer class="bg-stone-900 text-stone-500 py-20 px-6">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
-            <div class="text-center md:text-left">
-                <div class="serif text-2xl text-white font-bold tracking-widest mb-4 uppercase">THE BOOK VERSE</div>
-                <p class="text-sm max-w-xs">Celebrating the written word and the community that keeps it alive.</p>
-            </div>
-            <div class="flex gap-10 text-xs font-bold uppercase tracking-widest">
-                <a href="terms.html" class="hover:text-white transition-colors">Terms</a>
-                <a href="policy.html" class="hover:text-white transition-colors">Privacy</a>
-            </div>
+    <footer class="bg-stone-900 text-stone-500 py-16 px-6 text-center">
+        <div class="serif text-xl text-white font-bold tracking-widest mb-6">THE BOOK VERSE</div>
+        <div class="flex justify-center gap-8 text-xs font-bold uppercase tracking-widest mb-10">
+            <a href="terms.html" class="hover:text-white transition-colors">Terms</a>
+            <a href="policy.html" class="hover:text-white transition-colors">Privacy</a>
         </div>
-        <div class="mt-20 text-center text-[10px] tracking-[0.5em] text-stone-700 uppercase">© 2026 THE BOOK VERSE COMMUNITY</div>
+        <p class="text-[10px] tracking-[0.5em] uppercase opacity-40">© 2026 THE BOOK VERSE COMMUNITY</p>
     </footer>
 
     <script>
-        // --- MOTIVATIONAL DATA ---
         const readingQuotes = [
             "A book is a dream that you hold in your hand. — Neil Gaiman",
             "Books are a uniquely portable magic. — Stephen King",
             "Reading gives us some place to go when we have to stay where we are. — Mason Cooley",
-            "A reader lives a thousand lives before he dies. — George R.R. Martin",
             "There is no friend as loyal as a book. — Ernest Hemingway",
             "Literature is the most agreeable way of ignoring life. — Fernando Pessoa",
-            "Reading is essential for those who seek to rise above the ordinary. — Jim Rohn",
-            "The world is a book and those who do not travel read only one page. — Augustine",
-            "I have always imagined that Paradise will be a kind of library. — Jorge Luis Borges"
+            "Reading is essential for those who seek to rise above the ordinary. — Jim Rohn"
         ];
 
         function setRandomMotivation() {
-            const quoteElement = document.getElementById('motivationQuote');
-            const randomIndex = Math.floor(Math.random() * readingQuotes.length);
-            quoteElement.innerText = readingQuotes[randomIndex];
+            document.getElementById('motivationQuote').innerText = readingQuotes[Math.floor(Math.random() * readingQuotes.length)];
         }
 
-        // --- TIME-BASED LOGIC ---
         function updateBookState() {
             const now = new Date();
             const hour = now.getHours();
-            const bookSection = document.getElementById('interactiveBook');
+            const wrap = document.getElementById('characterWrap');
             const greeting = document.getElementById('timeGreeting');
-            const zzz = document.getElementById('zzzWrapper');
             const celestial = document.getElementById('celestialBody');
+            const hiBubble = document.getElementById('hiBubble');
+            const eyesOpen = document.querySelectorAll('.eye-open');
+            const eyesClosed = document.querySelectorAll('.eye-closed');
             
-            let greetingText = ""; 
-            let sleeping = false;
-            let timeClass = "is-day";
+            let txt = ""; let sleeping = false; let timeClass = "is-day";
 
-            // POSITION & STYLE LOGIC
-            // Morning: 3am-12pm (Sun rising from bottom left to top)
-            if (hour >= 3 && hour < 12) {
-                greetingText = "Good Morning";
-                timeClass = "is-day";
-                celestial.style.left = "10%";
-                celestial.style.top = "60%";
-                sleeping = false;
-            }
-            // Afternoon: 12pm-5pm (Sun high center)
-            else if (hour >= 12 && hour < 17) {
-                greetingText = "Good Afternoon";
-                timeClass = "is-day";
-                celestial.style.left = "50%";
-                celestial.style.top = "10%";
-                celestial.style.transform = "translateX(-50%)";
-                sleeping = false;
-            }
-            // Evening: 5pm-8pm (Sun low right)
-            else if (hour >= 17 && hour < 20) {
-                greetingText = "Good Evening";
-                timeClass = "is-day";
-                celestial.style.left = "80%";
-                celestial.style.top = "50%";
-                sleeping = false;
-            }
-            // Night: 8pm-3am (Moon high right)
-            else {
-                greetingText = "Good Night";
-                timeClass = "is-night";
-                celestial.style.left = "85%";
-                celestial.style.top = "15%";
-                sleeping = true;
+            // Transitions and Positions
+            if (hour >= 3 && hour < 12) { // Morning
+                txt = "Good Morning"; celestial.style.left = "15%"; celestial.style.top = "60%";
+            } else if (hour >= 12 && hour < 17) { // Afternoon
+                txt = "Good Afternoon"; celestial.style.left = "50%"; celestial.style.top = "10%"; celestial.style.transform = "translateX(-50%)";
+            } else if (hour >= 17 && hour < 20) { // Evening
+                txt = "Good Evening"; celestial.style.left = "75%"; celestial.style.top = "50%";
+            } else { // Night
+                txt = "Good Night"; timeClass = "is-night"; sleeping = true; celestial.style.left = "80%"; celestial.style.top = "15%";
             }
 
-            greeting.innerText = greetingText;
+            greeting.innerText = txt;
             greeting.style.opacity = "1";
-            bookSection.className = `book-section ${timeClass} ${sleeping ? 'is-sleeping' : 'is-awake'}`;
-            zzz.style.display = sleeping ? "block" : "none";
-        }
+            wrap.className = `book-character-section ${timeClass} ${sleeping ? 'is-sleeping' : 'is-awake'}`;
 
-        // --- DATA FETCHING ---
-        function convertGoogleDriveLink(driveLink) {
-            if (!driveLink || typeof driveLink !== 'string') return '';
-            const idMatch = driveLink.match(/[-\w]{25,}/);
-            return idMatch ? `https://lh3.googleusercontent.com/d/${idMatch[0]}` : driveLink;
+            // Visual toggle for eyes
+            eyesOpen.forEach(e => e.style.display = sleeping ? 'none' : 'block');
+            eyesClosed.forEach(e => e.style.display = sleeping ? 'block' : 'none');
         }
 
         const SHEET_ID = '1z1Lc7Bqw4eJCV19qGYDXF65oBkz8r0AS4k67yzaa_8c';
         const GVIZ_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=0`;
 
+        function convertGoogleDriveLink(driveLink) {
+            if (!driveLink) return '';
+            const idMatch = driveLink.match(/[-\w]{25,}/);
+            return idMatch ? `https://lh3.googleusercontent.com/d/${idMatch[0]}` : driveLink;
+        }
+
         async function fetchMembers() {
             const track = document.getElementById('membersTrack');
-            const container = document.getElementById('marqueeContainer');
             try {
                 const response = await fetch(GVIZ_URL);
                 const text = await response.text();
-                const jsonString = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
-                const jsonData = JSON.parse(jsonString);
+                const json = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1));
                 const images = [];
-                jsonData.table.rows.forEach(row => {
-                    if (row.c) { row.c.forEach(cell => {
-                        if (cell && cell.v && typeof cell.v === 'string' && cell.v.includes('drive.google.com')) images.push(convertGoogleDriveLink(cell.v));
-                    }); }
+                json.table.rows.forEach(row => {
+                    if (row.c) row.c.forEach(cell => {
+                        if (cell && cell.v && cell.v.toString().includes('drive.google.com')) images.push(convertGoogleDriveLink(cell.v));
+                    });
                 });
-                if (images.length === 0) { track.innerHTML = "<p class='text-stone-300 italic py-10'>Community growing...</p>"; return; }
+
+                if (images.length === 0) return;
                 track.innerHTML = "";
-                if (images.length === 1) { 
-                    container.style.justifyContent = "center"; 
-                    track.appendChild(createMemberFrame(images[0])); 
+                
+                if (images.length === 1) {
+                    track.appendChild(createMemberFrame(images[0]));
+                    document.getElementById('marqueeContainer').style.justifyContent = "center";
                 } else {
-                    container.style.justifyContent = "flex-start";
                     let displaySet = [...images];
                     while (displaySet.length < 15) displaySet = [...displaySet, ...images];
                     track.classList.add('scrolling-active');
                     [...displaySet, ...displaySet].forEach(url => track.appendChild(createMemberFrame(url)));
                 }
-            } catch (err) { track.innerHTML = "<p class='text-red-300 py-10'>Sheet error.</p>"; }
+            } catch (err) { track.innerHTML = "<p>Connection Issue</p>"; }
         }
 
         function createMemberFrame(url) {
-            const el = document.createElement('div'); el.className = "member-frame";
-            const img = document.createElement('img'); img.src = url; img.className = "w-full h-full object-cover";
+            const a = document.createElement('a');
+            a.href = "member.html";
+            a.className = "member-frame";
+            const img = document.createElement('img');
+            img.src = url; img.className = "w-full h-full object-cover";
             img.onerror = () => img.src = 'https://via.placeholder.com/150?text=User';
-            el.appendChild(img); return el;
+            a.appendChild(img);
+            return a;
         }
 
-        // --- UI UTILS ---
         const menuBtn = document.getElementById('menuBtn');
         const sidebar = document.getElementById('sidebar');
         const closeBtn = document.getElementById('closeBtn');
-        const overlay = document.getElementById('closeOverlay');
         const toggle = () => sidebar.classList.toggle('active');
-        menuBtn.onclick = toggle; closeBtn.onclick = toggle; overlay.onclick = toggle;
+        menuBtn.onclick = toggle; closeBtn.onclick = toggle; 
+        document.getElementById('closeOverlay').onclick = toggle;
 
-        window.onload = () => { 
-            updateBookState(); 
-            fetchMembers(); 
-            setRandomMotivation();
-            setInterval(updateBookState, 60000); 
-        };
+        window.onload = () => { updateBookState(); fetchMembers(); setRandomMotivation(); setInterval(updateBookState, 60000); };
     </script>
 </body>
 </html>
