@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="hJSoFmR9FEyp-b02Dt1Mt10y4e5fzP1JrnSjbgoghAU" />
     <title>The Book Verse Community</title>
     
     <!-- Favicon -->
@@ -136,6 +137,23 @@
         .btn-premium:hover::after {
             left: 100%;
         }
+
+        /* --- Browser Gate Styles --- */
+        #chrome-warning {
+            display: none; /* Hidden by default */
+        }
+        
+        /* When body gets 'not-chrome' class, show warning and hide everything else */
+        body.not-chrome {
+            overflow: hidden;
+        }
+        body.not-chrome #chrome-warning {
+            display: flex;
+        }
+        body.not-chrome #main-content,
+        body.not-chrome .ambient-glow {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="min-h-screen text-skin-text font-sans flex items-center justify-center relative selection:bg-skin-dark selection:text-white">
@@ -144,7 +162,30 @@
     <div class="ambient-glow w-96 h-96 bg-[#ffffff] top-[-10%] left-[-10%]"></div>
     <div class="ambient-glow w-[30rem] h-[30rem] bg-[#e5d0c0] bottom-[-15%] right-[-10%] opacity-50"></div>
 
-    <main class="relative z-10 flex flex-col items-center justify-center px-6 text-center w-full max-w-4xl mx-auto">
+    <!-- Chrome Required Overlay (Only visible on non-Chrome browsers) -->
+    <div id="chrome-warning" class="fixed inset-0 z-[100] bg-skin-base flex-col items-center justify-center p-6 text-center">
+        <div class="bg-skin-light p-10 rounded-3xl shadow-2xl max-w-md w-full border border-skin-dark relative overflow-hidden">
+            <!-- Decorative corner elements -->
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-skin-dark rounded-full opacity-20 blur-2xl"></div>
+            
+            <svg class="w-20 h-20 mx-auto mb-6 text-skin-text relative z-10" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <!-- Chrome Logo Approximation -->
+                <path d="M12 2.25C6.615 2.25 2.25 6.615 2.25 12C2.25 17.385 6.615 21.75 12 21.75C17.385 21.75 21.75 17.385 21.75 12C21.75 6.615 17.385 2.25 12 2.25ZM12 6.75C14.1 6.75 15.93 7.995 16.815 9.825L12.33 17.58C10.02 17.295 8.25 15.345 8.25 12C8.25 11.025 8.52 10.125 9.015 9.375L12 6.75ZM12 17.25C11.535 17.25 11.085 17.145 10.68 16.965L15.15 9.225C15.54 10.035 15.75 10.98 15.75 12C15.75 14.895 13.395 17.25 12 17.25ZM5.76 14.595C5.43 13.785 5.25 12.915 5.25 12C5.25 9.495 6.63 7.32 8.64 6.135L13.11 13.875C12.825 14.34 12.435 14.73 11.97 15.015L5.76 14.595Z"/>
+            </svg>
+            
+            <h2 class="text-3xl font-serif font-bold text-skin-text mb-3 relative z-10">Chrome Required</h2>
+            <p class="text-skin-accent mb-8 font-sans leading-relaxed relative z-10">
+                The Book Verse Community is exclusively optimized for Google Chrome. Please open this link in Chrome to enter the sanctuary.
+            </p>
+            
+            <button onclick="copyCurrentUrl()" id="copy-btn" class="w-full px-6 py-4 bg-skin-text text-skin-base rounded-full font-sans text-sm font-semibold uppercase tracking-wider hover:bg-skin-accent transition-all duration-300 shadow-lg hover:-translate-y-1 relative z-10">
+                Copy Link
+            </button>
+        </div>
+    </div>
+
+    <!-- Added ID "main-content" so we can hide it via JS -->
+    <main id="main-content" class="relative z-10 flex flex-col items-center justify-center px-6 text-center w-full max-w-4xl mx-auto">
         
         <!-- Animated Logo -->
         <div class="floating-logo-container mb-10">
@@ -184,5 +225,54 @@
 
     </main>
 
+    <!-- Browser Detection Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check if the browser is Chrome (Excludes Edge, Opera, Safari, Firefox)
+            const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor) && !/Edg|OPR/.test(navigator.userAgent);
+            const isIOSChrome = /CriOS/.test(navigator.userAgent); // Specific check for iOS Chrome
+
+            // If it is NOT Chrome, activate the gate
+            if (!isChrome && !isIOSChrome) {
+                document.body.classList.add('not-chrome');
+            }
+        });
+
+        function copyCurrentUrl() {
+            const url = window.location.href;
+            const btn = document.getElementById('copy-btn');
+            const originalText = btn.innerText;
+            
+            // Clipboard API for modern browsers
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(url).then(() => {
+                    showCopiedSuccess(btn, originalText);
+                });
+            } else {
+                // Fallback for older browsers / non-secure contexts
+                const textArea = document.createElement("textarea");
+                textArea.value = url;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showCopiedSuccess(btn, originalText);
+                } catch (err) {
+                    btn.innerText = "Failed to copy";
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+
+        function showCopiedSuccess(btn, originalText) {
+            btn.innerText = "Link Copied! ✓";
+            btn.classList.add("bg-green-700"); // Add success color
+            
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.classList.remove("bg-green-700");
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
