@@ -164,6 +164,25 @@
         }
         .btn-cta:hover { background-color: var(--skin-accent); transform: translateY(-3px); }
 
+        /* Custom scrollbar hiding for Carousel */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .mood-card {
+            background: white; border: 1px solid rgba(215, 181, 154, 0.2);
+            border-radius: 24px; padding: 30px; min-width: 280px;
+            scroll-snap-align: start; transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .mood-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(215, 181, 154, 0.15); border-color: var(--skin-accent); }
+
+        .point-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            line-height: 1;
+            color: rgba(215, 181, 154, 0.3);
+            font-weight: 900;
+        }
+
         #timeGreeting { font-size: 0.75rem; letter-spacing: 0.4em; text-transform: uppercase; font-weight: 800; color: var(--skin-accent); margin-top: 20px; opacity: 0; }
     </style>
 </head>
@@ -192,6 +211,8 @@
                 <a href="join.html" class="block text-2xl serif hover:text-orange-400 transition-colors">Join the community</a>
                 <a href="member.html" class="block text-2xl serif hover:text-orange-400 transition-colors">Meet our community</a>
                 <a href="panel.html" class="block text-2xl serif hover:text-orange-400 transition-colors">Members panel</a>
+                <a href="lit.html" class="block text-2xl serif hover:text-orange-400 transition-colors">Lithive</a>
+                <a href="profile.html" class="block text-2xl serif hover:text-orange-400 transition-colors">Profile</a>
             </nav>
             <div class="mt-auto pt-10 border-t border-stone-100 flex gap-6 text-xs font-bold text-stone-400 uppercase tracking-widest">
                 <a href="terms.html" class="hover:text-stone-800">Terms</a>
@@ -278,6 +299,149 @@
             </div>
         </section>
 
+        <!-- Mood-Based Reading Carousel -->
+        <section class="max-w-6xl mx-auto px-6 mb-20">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold serif mb-2 text-stone-800">Read According to Your Mood</h2>
+                <p class="text-stone-500 max-w-xl mx-auto">Select how you are feeling today, and let us guide you to your perfect literary escape.</p>
+            </div>
+            <div class="flex gap-6 overflow-x-auto snap-x hide-scrollbar pb-8 pt-4 px-4 -mx-4">
+                <!-- Motivated -->
+                <div class="mood-card text-center flex flex-col items-center justify-between">
+                    <div class="text-5xl mb-4">🚀</div>
+                    <h4 class="font-bold text-xl mb-2 text-stone-800">Motivated</h4>
+                    <p class="text-sm text-stone-500 mb-6">Ready to conquer the world? Read books that fuel your ambition.</p>
+                    <a href="mod.html" class="text-xs font-bold uppercase tracking-widest text-orange-500 hover:text-orange-700 transition-colors mt-auto">Read Motivated Books <i class="fas fa-arrow-right ml-1"></i></a>
+                </div>
+                <!-- Romantic -->
+                <div class="mood-card text-center flex flex-col items-center justify-between">
+                    <div class="text-5xl mb-4">💖</div>
+                    <h4 class="font-bold text-xl mb-2 text-stone-800">Romantic</h4>
+                    <p class="text-sm text-stone-500 mb-6">Yearning for love? Dive into stories that capture the heart.</p>
+                    <a href="mod.html" class="text-xs font-bold uppercase tracking-widest text-orange-500 hover:text-orange-700 transition-colors mt-auto">Read Romance <i class="fas fa-arrow-right ml-1"></i></a>
+                </div>
+                <!-- Sad / Melancholy -->
+                <div class="mood-card text-center flex flex-col items-center justify-between">
+                    <div class="text-5xl mb-4">🌧️</div>
+                    <h4 class="font-bold text-xl mb-2 text-stone-800">Melancholic</h4>
+                    <p class="text-sm text-stone-500 mb-6">Feeling blue? Find comfort and understanding in these pages.</p>
+                    <a href="mod.html" class="text-xs font-bold uppercase tracking-widest text-orange-500 hover:text-orange-700 transition-colors mt-auto">Find Comfort Reads <i class="fas fa-arrow-right ml-1"></i></a>
+                </div>
+                <!-- Curious -->
+                <div class="mood-card text-center flex flex-col items-center justify-between">
+                    <div class="text-5xl mb-4">🕵️</div>
+                    <h4 class="font-bold text-xl mb-2 text-stone-800">Curious</h4>
+                    <p class="text-sm text-stone-500 mb-6">Need a puzzle? Get lost in thrilling mysteries and thrillers.</p>
+                    <a href="mod.html" class="text-xs font-bold uppercase tracking-widest text-orange-500 hover:text-orange-700 transition-colors mt-auto">Read Mysteries <i class="fas fa-arrow-right ml-1"></i></a>
+                </div>
+                <!-- Relaxed -->
+                <div class="mood-card text-center flex flex-col items-center justify-between">
+                    <div class="text-5xl mb-4">☕</div>
+                    <h4 class="font-bold text-xl mb-2 text-stone-800">Relaxed</h4>
+                    <p class="text-sm text-stone-500 mb-6">Just want to unwind? Enjoy our light, cozy reading selections.</p>
+                    <a href="mod.html" class="text-xs font-bold uppercase tracking-widest text-orange-500 hover:text-orange-700 transition-colors mt-auto">Read Cozy Books <i class="fas fa-arrow-right ml-1"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Professional CTA Buttons -->
+        <section class="max-w-4xl mx-auto px-6 mb-32 flex flex-col sm:flex-row justify-center gap-6">
+            <a href="blog.html" class="bg-stone-800 hover:bg-stone-900 text-white px-8 py-5 rounded-[100px] text-center font-bold tracking-widest uppercase text-xs transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+                Start a Quick Read
+            </a>
+            <a href="books.html" class="bg-orange-200 hover:bg-orange-300 text-stone-900 px-8 py-5 rounded-[100px] text-center font-bold tracking-widest uppercase text-xs transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+                Discover Your Next Read
+            </a>
+        </section>
+
+        <!-- Trending Books Section -->
+        <section class="max-w-6xl mx-auto px-6 mb-32">
+            <h2 class="text-4xl font-black text-stone-900 leading-tight mb-12 text-center uppercase">Trending <span class="text-orange-400 serif italic font-normal normal-case">Reads</span></h2>
+            <div class="marquee-container overflow-hidden py-4" id="trendingContainer">
+                <div id="trendingTrack" class="marquee-track">
+                    <div class="flex items-center justify-center w-full opacity-30 py-10"><i class="fas fa-spinner fa-spin text-2xl"></i></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How to Read a Book in 10 Points -->
+        <section class="max-w-5xl mx-auto px-6 mb-32">
+            <h2 class="text-4xl font-black text-stone-900 leading-tight mb-12 text-center uppercase">The Art of Reading <br><span class="text-orange-400 serif italic font-normal normal-case">in 10 Steps</span></h2>
+            
+            <div class="grid md:grid-cols-2 gap-x-12 gap-y-8">
+                <div class="flex items-start gap-6 bg-white p-6 rounded-3xl border border-stone-100 shadow-sm hover:border-orange-200 transition-colors">
+                    <span class="point-number">01</span>
+                    <div><h4 class="font-bold text-lg mb-1">Define Your Purpose</h4><p class="text-stone-500 text-sm">Decide if you are reading for knowledge, entertainment, or pure escapism.</p></div>
+                </div>
+                <div class="flex items-start gap-6 bg-white p-6 rounded-3xl border border-stone-100 shadow-sm hover:border-orange-200 transition-colors">
+                    <span class="point-number">02</span>
+                    <div><h4 class="font-bold text-lg mb-1">Create a Sanctuary</h4><p class="text-stone-500 text-sm">Find a quiet, comfortable space with good lighting to immerse yourself.</p></div>
+                </div>
+                <div class="flex items-start gap-6 bg-white p-6 rounded-3xl border border-stone-100 shadow-sm hover:border-orange-200 transition-colors">
+                    <span class="point-number">03</span>
+                    <div><h4 class="font-bold text-lg mb-1">Disconnect to Connect</h4><p class="text-stone-500 text-sm">Put your phone away. True immersion requires absolute focus.</p></div>
+                </div>
+                <div class="flex items-start gap-6 bg-white p-6 rounded-3xl border border-stone-100 shadow-sm hover:border-orange-200 transition-colors">
+                    <span class="point-number">04</span>
+                    <div><h4 class="font-bold text-lg mb-1">Read Actively</h4><p class="text-stone-500 text-sm">Keep a pencil or sticky notes handy to highlight beautiful quotes or ideas.</p></div>
+                </div>
+                <div class="flex items-start gap-6 bg-white p-6 rounded-3xl border border-stone-100 shadow-sm hover:border-orange-200 transition-colors">
+                    <span class="point-number">05</span>
+                    <div><h4 class="font-bold text-lg mb-1">Pace Yourself</h4><p class="text-stone-500 text-sm">Don't rush. Savor the words. A book is a journey, not a race to the finish line.</p></div>
+                </div>
+                <div class="flex items-start gap-6 bg-white p-6 rounded-3xl border border-stone-100 shadow-sm hover:border-orange-200 transition-colors">
+                    <span class="point-number">06</span>
+                    <div><h4 class="font-bold text-lg mb-1">Visualize the World</h4><p class="text-stone-500 text-sm">Let your imagination paint the characters and landscapes in your mind.</p></div>
+                </div>
+                <div class="flex items-start gap-6 bg-white p-6 rounded-3xl border border-stone-100 shadow-sm hover:border-orange-200 transition-colors">
+                    <span class="point-number">07</span>
+                    <div><h4 class="font-bold text-lg mb-1">Embrace the Unknown</h4><p class="text-stone-500 text-sm">Look up unfamiliar words. Allow the book to expand your vocabulary.</p></div>
+                </div>
+                <div class="flex items-start gap-6 bg-white p-6 rounded-3xl border border-stone-100 shadow-sm hover:border-orange-200 transition-colors">
+                    <span class="point-number">08</span>
+                    <div><h4 class="font-bold text-lg mb-1">Pause and Reflect</h4><p class="text-stone-500 text-sm">After a heavy chapter, close the book and let the concepts settle in your mind.</p></div>
+                </div>
+                <div class="flex items-start gap-6 bg-white p-6 rounded-3xl border border-stone-100 shadow-sm hover:border-orange-200 transition-colors">
+                    <span class="point-number">09</span>
+                    <div><h4 class="font-bold text-lg mb-1">Share the Experience</h4><p class="text-stone-500 text-sm">Discuss the book with a friend or post your thoughts in the community.</p></div>
+                </div>
+                <div class="flex items-start gap-6 bg-white p-6 rounded-3xl border border-stone-100 shadow-sm hover:border-orange-200 transition-colors">
+                    <span class="point-number">10</span>
+                    <div><h4 class="font-bold text-lg mb-1">Apply the Wisdom</h4><p class="text-stone-500 text-sm">Take the lessons or perspectives you learned and apply them to your life.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mindset of an Author -->
+        <section class="max-w-5xl mx-auto px-6 mb-24">
+            <div class="bg-stone-900 text-stone-300 p-12 md:p-20 rounded-[40px] relative overflow-hidden shadow-2xl">
+                <!-- Decorative element -->
+                <i class="fas fa-feather-alt absolute -right-10 -bottom-10 text-[200px] text-stone-800 opacity-50"></i>
+                
+                <div class="relative z-10 max-w-3xl">
+                    <h2 class="text-4xl md:text-5xl font-black text-white leading-tight mb-8 uppercase">The Mindset <br><span class="text-orange-400 serif italic font-normal normal-case">of an Author</span></h2>
+                    
+                    <div class="space-y-6 text-lg leading-relaxed mb-12">
+                        <p>To write is to observe the world with radical empathy. The mindset of an author is rooted deeply in curiosity, emotional resilience, and the willingness to embrace vulnerability. An author does not just look at a crowd; they see a thousand untold histories walking past them.</p>
+                        
+                        <p>It requires the discipline to sit in silence, translating chaotic, abstract thoughts into structured, beautiful reality. It is an understanding that first drafts are meant to be messy, and that true magic happens during the quiet, painstaking hours of revision.</p>
+                        
+                        <p class="text-white font-serif italic text-2xl border-l-4 border-orange-400 pl-6 my-8">"An author lives entirely in the 'what if', constantly pulling invisible threads from the air and weaving them into worlds."</p>
+                    </div>
+
+                    <div class="bg-stone-800 p-8 rounded-3xl border border-stone-700 flex flex-col sm:flex-row items-center justify-between gap-6">
+                        <div>
+                            <h4 class="text-white font-bold text-xl mb-1">Have a story to tell?</h4>
+                            <p class="text-sm">Connect with those who have walked the path.</p>
+                        </div>
+                        <a href="member.html" class="bg-orange-300 hover:bg-orange-400 text-stone-900 px-6 py-4 rounded-[100px] font-bold tracking-widest uppercase text-xs transition-colors whitespace-nowrap shadow-lg">
+                            Ask an Author How to Be an Author
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- About Section -->
         <section class="max-w-5xl mx-auto px-6 mb-24">
             <div class="premium-card p-10 md:p-16">
@@ -312,7 +476,10 @@
             <a href="terms.html" class="hover:text-white transition-colors">Terms</a>
             <a href="policy.html" class="hover:text-white transition-colors">Privacy</a>
         </div>
-        <p class="text-[10px] tracking-[0.5em] uppercase opacity-40">© 2026 THE BOOK VERSE COMMUNITY</p>
+        <p class="text-[10px] tracking-[0.5em] uppercase opacity-40 mb-6">© 2026 THE BOOK VERSE COMMUNITY</p>
+        <a href="https://www.flexigigs.in" target="_blank" rel="noopener noreferrer" class="text-[10px] tracking-[0.2em] uppercase text-stone-500 hover:text-orange-300 transition-colors cursor-pointer">
+            This website is built by Flexigigs
+        </a>
     </footer>
 
     <script>
@@ -370,8 +537,109 @@
             return idMatch ? `https://lh3.googleusercontent.com/d/${idMatch[0]}` : driveLink;
         }
 
+        // Upgraded Converter: Uses the most reliable Google Image endpoint for HTML tags
+        function convertDriveLinkToUc(driveLink) {
+            if (!driveLink || typeof driveLink !== 'string') return '';
+            const idMatch = driveLink.match(/[-\w]{25,}/);
+            if (idMatch) {
+                // Primary reliable endpoint for modern browsers
+                return `https://lh3.googleusercontent.com/d/${idMatch[0]}`;
+            }
+            return driveLink;
+        }
+
+        const TRENDING_SHEET_ID = '1HpXZTKB6VYtlUGx5BRDLkQ5Qxoclnxq008NA_Wyqm7k';
+        const TRENDING_QUERY = encodeURIComponent("Select B, I");
+        const TRENDING_GVIZ_URL = `https://docs.google.com/spreadsheets/d/${TRENDING_SHEET_ID}/gviz/tq?tqx=out:json&gid=0&tq=${TRENDING_QUERY}`;
+
+        async function fetchTrendingBooks() {
+            const track = document.getElementById('trendingTrack');
+            const container = document.getElementById('trendingContainer');
+            try {
+                const response = await fetch(TRENDING_GVIZ_URL);
+                const text = await response.text();
+                const json = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1));
+                const trendingImages = [];
+                
+                json.table.rows.forEach(row => {
+                    if (row.c && row.c[0] && row.c[1]) {
+                        const imgCell = row.c[0];
+                        const trendingCell = row.c[1];
+                        
+                        if (trendingCell && (trendingCell.v === 1 || trendingCell.v === '1' || trendingCell.v === true) && imgCell && imgCell.v) {
+                            trendingImages.push(convertDriveLinkToUc(imgCell.v));
+                        }
+                    }
+                });
+
+                if (trendingImages.length === 0) { 
+                    track.innerHTML = "<p class='text-stone-400 italic py-10'>No trending books currently.</p>"; 
+                    return; 
+                }
+                
+                track.innerHTML = "";
+                
+                // Check if there are 2 or fewer books to make it static
+                if (trendingImages.length <= 2) {
+                    container.style.justifyContent = "center";
+                    track.classList.remove('scrolling-active');
+                    trendingImages.forEach(url => track.appendChild(createBookCard(url)));
+                } else {
+                    // More than 2 books triggers the infinite animation
+                    container.style.justifyContent = "flex-start";
+                    let displaySet = [...trendingImages];
+                    while (displaySet.length < 10) displaySet = [...displaySet, ...trendingImages];
+                    track.classList.add('scrolling-active');
+                    [...displaySet, ...displaySet].forEach(url => track.appendChild(createBookCard(url)));
+                }
+            } catch (err) { track.innerHTML = "<p class='text-red-400 py-10'>Error loading trending books.</p>"; }
+        }
+
+        function createBookCard(url) {
+            const card = document.createElement('div');
+            card.className = "relative flex-shrink-0 w-48 h-72 rounded-xl overflow-hidden shadow-lg group mx-4 border border-stone-200 bg-white";
+            
+            const img = document.createElement('img');
+            img.src = url; 
+            img.className = "w-full h-full object-cover transition-transform duration-500 group-hover:scale-110";
+            
+            // Smart Fallback System
+            img.onerror = function() {
+                if (!this.dataset.triedBackup) {
+                    this.dataset.triedBackup = "true";
+                    const idMatch = url.match(/[-\w]{25,}/);
+                    if (idMatch) {
+                        // Fallback to the classic uc?export=view if the primary fails
+                        this.src = `https://drive.google.com/uc?export=view&id=${idMatch[0]}`;
+                        return;
+                    }
+                }
+                this.src = 'https://via.placeholder.com/200x300?text=Book';
+            };
+            
+            const tag = document.createElement('div');
+            tag.className = "absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider shadow z-10 flex items-center gap-1";
+            tag.innerHTML = '<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"></path></svg> Trending';
+
+            const overlay = document.createElement('div');
+            overlay.className = "absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20";
+            
+            const btn = document.createElement('a');
+            btn.href = "books.html";
+            btn.className = "bg-white text-stone-900 px-5 py-2 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-orange-200 transition-colors transform translate-y-4 group-hover:translate-y-0 duration-300 shadow-xl";
+            btn.innerText = "View";
+
+            overlay.appendChild(btn);
+            card.appendChild(img);
+            card.appendChild(tag);
+            card.appendChild(overlay);
+
+            return card;
+        }
+
         async function fetchMembers() {
             const track = document.getElementById('membersTrack');
+            const container = document.getElementById('marqueeContainer');
             try {
                 const response = await fetch(GVIZ_URL);
                 const text = await response.text();
@@ -388,8 +656,9 @@
                 
                 if (images.length === 1) {
                     track.appendChild(createMemberFrame(images[0]));
-                    document.getElementById('marqueeContainer').style.justifyContent = "center";
+                    container.style.justifyContent = "center";
                 } else {
+                    container.style.justifyContent = "flex-start";
                     let displaySet = [...images];
                     while (displaySet.length < 15) displaySet = [...displaySet, ...images];
                     track.classList.add('scrolling-active');
@@ -416,7 +685,13 @@
         menuBtn.onclick = toggle; closeBtn.onclick = toggle; 
         document.getElementById('closeOverlay').onclick = toggle;
 
-        window.onload = () => { updateBookState(); fetchMembers(); setRandomMotivation(); setInterval(updateBookState, 60000); };
+        window.onload = () => { 
+            updateBookState(); 
+            fetchMembers(); 
+            fetchTrendingBooks();
+            setRandomMotivation(); 
+            setInterval(updateBookState, 60000); 
+        };
     </script>
 </body>
 </html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Portal</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for a premium look -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        skin: {
+                            light: '#FAF5F0', // Very light cream/skin tone
+                            card: '#F0E5D8',  // Slightly darker beige for cards
+                            accent: '#C8A98B', // Warm, premium accent color
+                            accentHover: '#B39476',
+                            textDark: '#4A3B32', // Deep brown/charcoal for soft contrast
+                            textMuted: '#7A6B62'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['"Playfair Display"', 'serif'],
+                        body: ['"Inter"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        .glass-effect {
+            background: rgba(240, 229, 216, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        /* Custom scrollbar for description */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #C8A98B; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-skin-light text-skin-textDark min-h-screen flex flex-col items-center p-4 selection:bg-skin-accent selection:text-white">
+
+    <!-- ONLY HEADING (No Footer as requested) -->
+    <header class="w-full max-w-md pt-8 pb-6 text-center">
+        <h1 class="text-4xl font-semibold tracking-wide text-skin-textDark">Members Only</h1>
+        <div class="h-0.5 w-16 bg-skin-accent mx-auto mt-4 rounded-full"></div>
+    </header>
+
+    <main class="w-full max-w-md flex-1 flex flex-col relative">
+        
+        <!-- LOADING SPINNER -->
+        <div id="loading" class="hidden absolute inset-0 z-50 flex items-center justify-center bg-skin-light bg-opacity-90 rounded-2xl">
+            <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-skin-accent"></div>
+        </div>
+
+        <!-- LOGIN VIEW -->
+        <div id="login-view" class="glass-effect rounded-3xl shadow-lg p-8 mt-4 transition-all duration-500">
+            <h2 class="text-2xl mb-6 text-center text-skin-textDark">Sign In</h2>
+            
+            <div id="error-message" class="hidden mb-4 p-3 bg-red-100 text-red-700 text-sm rounded-xl text-center border border-red-200">
+                Invalid User ID or Password.
+            </div>
+
+            <form id="login-form" class="space-y-5">
+                <div>
+                    <label class="block text-sm font-medium text-skin-textMuted mb-1 ml-1">User ID</label>
+                    <input type="text" id="uid" required 
+                        class="w-full px-4 py-3 rounded-xl border-none bg-white bg-opacity-60 focus:bg-white focus:ring-2 focus:ring-skin-accent outline-none transition-all placeholder-gray-400 shadow-sm"
+                        placeholder="Enter your ID">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-skin-textMuted mb-1 ml-1">Password</label>
+                    <input type="password" id="password" required 
+                        class="w-full px-4 py-3 rounded-xl border-none bg-white bg-opacity-60 focus:bg-white focus:ring-2 focus:ring-skin-accent outline-none transition-all placeholder-gray-400 shadow-sm"
+                        placeholder="••••••••">
+                </div>
+                <button type="submit" 
+                    class="w-full mt-4 bg-skin-accent hover:bg-skin-accentHover text-white font-medium py-3.5 rounded-xl shadow-md transition-all duration-300 transform active:scale-95">
+                    Access Portal
+                </button>
+            </form>
+        </div>
+
+        <!-- PROFILE VIEW (Hidden by default) -->
+        <div id="profile-view" class="hidden glass-effect rounded-3xl shadow-lg p-8 mt-4 transition-all duration-500 flex flex-col items-center text-center">
+            
+            <button onclick="logout()" class="absolute top-6 right-6 text-skin-textMuted hover:text-skin-textDark transition-colors text-sm font-medium">
+                Logout
+            </button>
+
+            <!-- Profile Image -->
+            <div class="relative w-32 h-32 mb-4 group">
+                <div class="absolute inset-0 bg-skin-accent rounded-full opacity-20 transform scale-110"></div>
+                <img id="profile-image" src="" alt="Profile" 
+                    class="w-full h-full object-cover rounded-full border-4 border-white shadow-md relative z-10">
+            </div>
+
+            <!-- Name (Column 7) -->
+            <h2 id="profile-name" class="text-3xl font-semibold mb-6 text-skin-textDark">Loading...</h2>
+
+            <!-- Create New Post Button -->
+            <button onclick="window.location.href='create.html'" class="w-full max-w-xs mb-8 bg-skin-textDark hover:bg-black text-white font-medium py-3 rounded-xl shadow-md transition-all duration-300 transform active:scale-95 flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                Create a new post
+            </button>
+
+            <!-- Description (Column 4) -->
+            <div class="w-full text-left bg-white bg-opacity-50 rounded-2xl p-5 mb-6 shadow-sm">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-skin-textMuted mb-2">About</h3>
+                <p id="profile-desc" class="text-sm leading-relaxed text-skin-textDark max-h-32 overflow-y-auto custom-scrollbar pr-2 whitespace-pre-wrap">
+                    Loading description...
+                </p>
+            </div>
+
+            <!-- Contact Admin Note -->
+            <p class="text-xs text-skin-textMuted italic mt-auto">
+                To change any details, contact the admin.
+            </p>
+        </div>
+
+    </main>
+
+    <script>
+        // --- 1. THE GOOGLE DRIVE LINK CONVERTER FUNCTION ---
+        /**
+         * Converts a Google Drive share link into a direct image hosting URL.
+         * @param {string} url - The original Google Drive link.
+         * @returns {string} - The direct image URL.
+         */
+        function convertDriveLinkToDirect(url) {
+            if (!url) return '';
+            
+            // Handle cases where Google Forms might provide multiple comma-separated links
+            const firstUrl = url.split(',')[0].trim();
+            
+            let fileId = '';
+            // Regex to match the FILE_ID from both common Google Drive link formats
+            const regexD = /\/d\/([a-zA-Z0-9_-]+)/;
+            const regexId = /[?&]id=([a-zA-Z0-9_-]+)/;
+
+            if (regexD.test(firstUrl)) {
+                fileId = firstUrl.match(regexD)[1];
+            } else if (regexId.test(firstUrl)) {
+                fileId = firstUrl.match(regexId)[1];
+            } else {
+                // If it doesn't match Google Drive formats, return original URL
+                return firstUrl; 
+            }
+
+            // Return the newer, more reliable Google Drive direct image display format
+            return `https://lh3.googleusercontent.com/d/${fileId}`;
+        }
+
+
+        // --- 2. CONFIGURATION & STATE ---
+        const SHEET_ID = '1z1Lc7Bqw4eJCV19qGYDXF65oBkz8r0AS4k67yzaa_8c';
+        const GID = '0';
+        // GViz API Endpoint (returns JSON instead of HTML)
+        const GVIZ_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${GID}`;
+
+        // Column Indices (0-based)
+        const COL_IMAGE = 1; // Column 2 (Index 1)
+        const COL_DESC = 3;  // Column 4 (Index 3)
+        const COL_NAME = 6;  // Column 7 (Index 6)
+        const COL_UID = 7;   // Column 8 (Index 7)
+        const COL_PASS = 8;  // Column 9 (Index 8)
+
+        // DOM Elements
+        const loginView = document.getElementById('login-view');
+        const profileView = document.getElementById('profile-view');
+        const loadingSpinner = document.getElementById('loading');
+        const loginForm = document.getElementById('login-form');
+        const errorMessage = document.getElementById('error-message');
+
+
+        // --- 3. INITIALIZATION & LOCAL STORAGE ---
+        window.onload = () => {
+            const savedCreds = localStorage.getItem('portal_creds');
+            if (savedCreds) {
+                // Hide login form and show loading state while auto-logging in
+                loginView.classList.add('hidden');
+                const creds = JSON.parse(savedCreds);
+                performLogin(creds.uid, creds.pass);
+            }
+        };
+
+        function showLoading(show) {
+            loadingSpinner.classList.toggle('hidden', !show);
+        }
+
+        // --- 4. DATA FETCHING AND PARSING ---
+        async function fetchSheetData() {
+            try {
+                const response = await fetch(GVIZ_URL);
+                const text = await response.text();
+                
+                // GViz returns text wrapped in a function call. We need to extract the JSON.
+                // It looks like: /*O_o*/\ngoogle.visualization.Query.setResponse({JSON_DATA});
+                const jsonString = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+                const data = JSON.parse(jsonString);
+                
+                return data.table.rows;
+            } catch (error) {
+                console.error("Error fetching Google Sheet:", error);
+                alert("Failed to connect to the database. Ensure the Google Sheet is set to 'Anyone with the link can view'.");
+                return null;
+            }
+        }
+
+        // --- 5. AUTHENTICATION LOGIC ---
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const inputUid = document.getElementById('uid').value.trim();
+            const inputPass = document.getElementById('password').value.trim();
+            performLogin(inputUid, inputPass);
+        });
+
+        async function performLogin(inputUid, inputPass) {
+            errorMessage.classList.add('hidden');
+            showLoading(true);
+
+            const rows = await fetchSheetData();
+            showLoading(false);
+
+            if (!rows) {
+                loginView.classList.remove('hidden');
+                return;
+            }
+
+            let userFound = null;
+
+            // Loop through all rows in the sheet
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i].c;
+                
+                // Check if the row has enough columns to contain UID and Pass to prevent errors
+                if (row && row.length > Math.max(COL_UID, COL_PASS)) {
+                    // Extract values, handling empty cells (null) gracefully
+                    const sheetUid = row[COL_UID] ? row[COL_UID].v.toString() : '';
+                    const sheetPass = row[COL_PASS] ? row[COL_PASS].v.toString() : '';
+
+                    if (sheetUid === inputUid && sheetPass === inputPass) {
+                        // Match found! Extract user details
+                        userFound = {
+                            name: row[COL_NAME] && row[COL_NAME].v ? row[COL_NAME].v : 'Unknown User',
+                            imageLink: row[COL_IMAGE] && row[COL_IMAGE].v ? row[COL_IMAGE].v : '',
+                            description: row[COL_DESC] && row[COL_DESC].v ? row[COL_DESC].v : 'No description provided.'
+                        };
+                        break;
+                    }
+                }
+            }
+
+            if (userFound) {
+                // Save credentials so they don't have to login on refresh, AND we can fetch fresh data next time
+                localStorage.setItem('portal_creds', JSON.stringify({uid: inputUid, pass: inputPass}));
+                showProfile(userFound);
+                loginForm.reset();
+            } else {
+                errorMessage.classList.remove('hidden');
+                loginView.classList.remove('hidden');
+                localStorage.removeItem('portal_creds'); // Clear invalid saved creds
+            }
+        }
+
+        // --- 6. UI RENDERING ---
+        function showProfile(user) {
+            // Apply the Drive Link Converter to the image URL from the sheet
+            const directImageUrl = convertDriveLinkToDirect(user.imageLink);
+
+            // Populate the HTML
+            document.getElementById('profile-name').textContent = user.name;
+            document.getElementById('profile-desc').textContent = user.description;
+            
+            const imgElement = document.getElementById('profile-image');
+            
+            // Set dynamic fallback avatar if the Google Drive image fails to load or is missing
+            const fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=C8A98B&color=fff&size=128`;
+            
+            imgElement.onerror = function() {
+                this.onerror = null; // Prevent infinite loop if fallback also fails
+                this.src = fallbackAvatar;
+            };
+
+            if (directImageUrl) {
+                imgElement.src = directImageUrl;
+            } else {
+                imgElement.src = fallbackAvatar;
+            }
+
+            // Switch views
+            loginView.classList.add('hidden');
+            profileView.classList.remove('hidden');
+        }
+
+        function logout() {
+            localStorage.removeItem('portal_creds');
+            profileView.classList.add('hidden');
+            loginView.classList.remove('hidden');
+            document.getElementById('uid').value = '';
+            document.getElementById('password').value = '';
+        }
+    </script>
+</body>
+</html>
