@@ -351,12 +351,29 @@
         async function getNextPostNo() {
             try {
                 const table = await fetchGvizData(POSTS_SHEET_ID);
-                // The length of the rows array represents the number of existing entries
-                const count = table.rows ? table.rows.length : 0;
-                return count + 1; // if 0 posts, post no is 1. If 5 posts, next is 6.
+                
+                // Row 1 is the header, so the first form submission lands on Row 2
+                if (!table || !table.rows) return 2; 
+
+                // Google Sheets sometimes returns empty formatting rows at the bottom.
+                // We filter and count ONLY rows that actually have data in them.
+                let validRowCount = 0;
+                for (let i = 0; i < table.rows.length; i++) {
+                    const row = table.rows[i];
+                    // Check if the row exists and has at least one filled cell
+                    if (row && row.c && row.c.some(cell => cell && cell.v !== null && cell.v !== '')) {
+                        validRowCount++;
+                    }
+                }
+                
+                // validRowCount is the number of existing responses.
+                // Google Sheets Row 1 is the header.
+                // If there are 0 responses, next is Row 2.
+                // If there are 5 responses (Rows 2-6), next is Row 7.
+                return validRowCount + 2; 
             } catch (e) {
                 console.error("Post count fetch error", e);
-                return 1; // Fallback
+                return 2; // Fallback to 2 if sheet is empty or errors
             }
         }
 
