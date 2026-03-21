@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curated Stories</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['Lora', 'serif'],
+                    },
+                    colors: {
+                        skin: {
+                            50: '#FDF9F6',   // Very light warm background
+                            100: '#F5EBE4',  // Light subtle contrast
+                            200: '#EBD8CB',  // Borders and dividers
+                            300: '#DABBA4',  // Muted elements
+                            400: '#C99D80',  // Secondary accents
+                            500: '#B57C5A',  // Primary interactive
+                            600: '#9B6242',  // Hover states
+                            700: '#7E4B31',  // Strong text
+                            800: '#5C3522',  // Headings
+                            900: '#3D2215',  // Darkest elements
+                        }
+                    },
+                    boxShadow: {
+                        'premium': '0 4px 20px -4px rgba(181, 124, 90, 0.1)',
+                        'premium-hover': '0 10px 25px -5px rgba(181, 124, 90, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FDF9F6;
+            color: #5C3522;
+        }
+        
+        /* Typography for dynamically injected post bodies */
+        .post-body {
+            color: #4a4a4a;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+        .post-body b, .post-body strong { color: #3D2215; font-weight: 700; }
+        .post-body i, .post-body em { color: #7E4B31; }
+        .post-body u { text-decoration-color: #B57C5A; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+        .post-body p { margin-bottom: 1.2em; }
+        .post-body p:last-child { margin-bottom: 0; }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hide scrollbar for filter container */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Filter Button Active State */
+        .filter-btn.active {
+            background-color: #B57C5A;
+            color: white;
+            border-color: #B57C5A;
+        }
+        
+        /* Heart Animation */
+        .heart-liked svg {
+            fill: #B57C5A;
+            stroke: #B57C5A;
+            transform: scale(1.1);
+            transition: all 0.2s ease;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen pb-20 selection:bg-skin-300 selection:text-skin-900">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-skin-50/95 backdrop-blur-xl border-b border-skin-200/80 shadow-sm">
+        <div class="max-w-2xl mx-auto px-4 py-6 flex justify-between items-center">
+            <div class="flex flex-col">
+                <h1 class="text-lg md:text-xl font-serif font-bold text-skin-900 tracking-[0.15em] uppercase leading-tight">THE BOOK VERSE COMMUNITY</h1>
+                <p class="text-[13px] md:text-sm font-serif italic text-skin-600 mt-1.5 tracking-wide">A place for the aspiring writers</p>
+            </div>
+            <a href="profile.html" title="Go to Profile" class="w-11 h-11 md:w-12 md:h-12 rounded-full bg-skin-100 flex items-center justify-center border border-skin-200 shadow-sm hover:bg-skin-200 hover:shadow-md transition-all duration-300 group shrink-0 ml-4 cursor-pointer">
+                <i data-lucide="user" class="w-5 h-5 md:w-6 md:h-6 text-skin-700 group-hover:text-skin-900 transition-colors"></i>
+            </a>
+        </div>
+        
+        <!-- Filter Bar -->
+        <div class="max-w-2xl mx-auto px-4 py-3 border-t border-skin-200/40">
+            <div id="filter-container" class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+                <button class="filter-btn active whitespace-nowrap px-5 py-1.5 rounded-full text-sm font-medium border border-skin-300 text-skin-700 transition-colors duration-200" onclick="filterPosts('All')">All</button>
+                <button class="filter-btn whitespace-nowrap px-5 py-1.5 rounded-full text-sm font-medium border border-skin-300 text-skin-700 transition-colors duration-200" onclick="filterPosts('Motivational')">Motivational</button>
+                <button class="filter-btn whitespace-nowrap px-5 py-1.5 rounded-full text-sm font-medium border border-skin-300 text-skin-700 transition-colors duration-200" onclick="filterPosts('Romantic')">Romantic</button>
+                <button class="filter-btn whitespace-nowrap px-5 py-1.5 rounded-full text-sm font-medium border border-skin-300 text-skin-700 transition-colors duration-200" onclick="filterPosts('Melancholic')">Melancholic</button>
+                <button class="filter-btn whitespace-nowrap px-5 py-1.5 rounded-full text-sm font-medium border border-skin-300 text-skin-700 transition-colors duration-200" onclick="filterPosts('Curious')">Curious</button>
+                <button class="filter-btn whitespace-nowrap px-5 py-1.5 rounded-full text-sm font-medium border border-skin-300 text-skin-700 transition-colors duration-200" onclick="filterPosts('Relaxed')">Relaxed</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-2xl mx-auto px-4 pt-6">
+        
+        <!-- Loader -->
+        <div id="loader" class="flex flex-col items-center justify-center py-20">
+            <i data-lucide="loader-2" class="w-8 h-8 text-skin-500 animate-spin mb-4"></i>
+            <p class="text-skin-600 font-medium">Loading stories...</p>
+        </div>
+
+        <!-- Feed Container -->
+        <div id="feed-container" class="flex flex-col gap-6 hidden">
+            <!-- Posts will be injected here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden flex-col items-center justify-center py-20 text-center">
+            <i data-lucide="inbox" class="w-12 h-12 text-skin-300 mb-4"></i>
+            <h3 class="text-lg font-serif font-semibold text-skin-800">No posts found</h3>
+            <p class="text-skin-600 mt-1 text-sm">Try selecting a different genre.</p>
+        </div>
+
+    </main>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 flex flex-col gap-2"></div>
+
+    <script>
+        // Data Sources
+        const POSTS_SHEET_URL = 'https://docs.google.com/spreadsheets/d/16C5_fVdyPQ-mZ0IBvLzf2CEBkKI3ORa4HhM0vIEoZvw/gviz/tq?tqx=out:json&gid=0';
+        const LIKES_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1jqEbNdI1Z-MsvZPYcHr_I9Km0FG3brzt6Fm0DSYmDcA/gviz/tq?tqx=out:json&gid=0';
+        const FORM_SUBMIT_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSd3GbKigc-oFWdcZdQLBLvkBQW9MptgfeKJ7PQzb4WTIIEWqA/formResponse';
+
+        let allPosts = [];
+        let likesMap = {};
+        let currentFilter = 'All';
+
+        // Local Storage Utilities for Likes
+        function getLikedPosts() {
+            try {
+                return JSON.parse(localStorage.getItem('likedPosts') || '[]');
+            } catch (e) {
+                return [];
+            }
+        }
+        
+        function isPostLiked(postNo) {
+            return getLikedPosts().includes(postNo);
+        }
+        
+        function saveLikedPost(postNo) {
+            const liked = getLikedPosts();
+            if (!liked.includes(postNo)) {
+                liked.push(postNo);
+                localStorage.setItem('likedPosts', JSON.stringify(liked));
+            }
+        }
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            fetchData();
+        });
+
+        // Utility: Show Custom Toast
+        function showToast(message, icon = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'bg-skin-800 text-white px-5 py-3 rounded-full shadow-lg flex items-center gap-2 text-sm font-medium transition-all duration-300 opacity-0 translate-y-4';
+            toast.innerHTML = `<i data-lucide="${icon}" class="w-4 h-4"></i> ${message}`;
+            
+            container.appendChild(toast);
+            lucide.createIcons({ root: toast });
+
+            // Animate in
+            requestAnimationFrame(() => {
+                toast.classList.remove('opacity-0', 'translate-y-4');
+            });
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-4');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Fetch Data from Google Sheets via Google Visualization API
+        async function fetchSheetData(url) {
+            try {
+                const response = await fetch(url);
+                const text = await response.text();
+                // The API returns text wrapped in a function call: /*O_o*/ google.visualization.Query.setResponse({...});
+                // We extract the JSON part
+                const match = text.match(/(?<=.*\().*(?=\);)/s);
+                if (match && match[0]) {
+                    return JSON.parse(match[0]);
+                }
+                return null;
+            } catch (error) {
+                console.error("Error fetching sheet:", error);
+                return null;
+            }
+        }
+
+        // Parse Date gracefully
+        function parseDate(cell) {
+            if (!cell) return 'Just now';
+            if (cell.f) return cell.f; // Formatted date string from sheet
+            if (cell.v && typeof cell.v === 'string' && cell.v.startsWith('Date')) {
+                const parts = cell.v.match(/Date\((\d+),(\d+),(\d+)/);
+                if (parts) {
+                    const date = new Date(parts[1], parts[2], parts[3]);
+                    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                }
+            }
+            return cell.v || 'Recently';
+        }
+
+        // Convert Google Drive links to direct image links
+        function getDirectImageUrl(url) {
+            if (!url) return '';
+            const driveMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+            if (url.includes('drive.google.com') && driveMatch) {
+                // Using the thumbnail endpoint which bypasses recent Google Drive hotlinking blocks
+                return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w400`;
+            }
+            return url;
+        }
+
+        // Main Data Fetching & Processing Logic
+        async function fetchData() {
+            const loader = document.getElementById('loader');
+            const feedContainer = document.getElementById('feed-container');
+
+            try {
+                // Fetch both sheets concurrently
+                const [postsData, likesData] = await Promise.all([
+                    fetchSheetData(POSTS_SHEET_URL),
+                    fetchSheetData(LIKES_SHEET_URL)
+                ]);
+
+                // 1. Process Likes Count from 2nd Sheet
+                if (likesData && likesData.table && likesData.table.rows) {
+                    likesData.table.rows.forEach(row => {
+                        if (row.c && row.c[1] && row.c[1].v) {
+                            // Column B (index 1) has the Post No
+                            const postNo = String(row.c[1].v).trim();
+                            // Column C (index 2) has the Action ('like')
+                            const action = row.c[2] && row.c[2].v ? String(row.c[2].v).trim().toLowerCase() : '';
+                            
+                            // Only count if the action is actually a 'like'
+                            if (action === 'like') {
+                                likesMap[postNo] = (likesMap[postNo] || 0) + 1;
+                            }
+                        }
+                    });
+                }
+
+                // 2. Process Posts from 1st Sheet
+                if (postsData && postsData.table && postsData.table.rows) {
+                    allPosts = postsData.table.rows.map(row => {
+                        const c = row.c;
+                        if (!c) return null;
+                        
+                        const val = (idx) => (c[idx] && c[idx].v) ? String(c[idx].v).trim() : '';
+                        const postNo = val(6); // 7th Column (G)
+
+                        return {
+                            timestamp: parseDate(c[0]),
+                            profileImg: getDirectImageUrl(val(1)) || `https://ui-avatars.com/api/?name=${encodeURIComponent(val(2) || 'User')}&background=F5EBE4&color=5C3522`,
+                            name: val(2) || 'Anonymous Writer',
+                            heading: val(3),
+                            body: val(4),
+                            genre: val(5),
+                            postNo: postNo,
+                            likeCount: likesMap[postNo] || 0
+                        };
+                    }).filter(post => post !== null && post.postNo !== ''); // Filter out empty rows
+                }
+
+                // 3. Render Posts
+                loader.classList.add('hidden');
+                feedContainer.classList.remove('hidden');
+                renderPosts(allPosts);
+
+            } catch (error) {
+                console.error("Initialization error:", error);
+                loader.innerHTML = '<p class="text-red-500">Failed to load content. Please refresh.</p>';
+            }
+        }
+
+        // Render Posts to DOM
+        function renderPosts(posts) {
+            const container = document.getElementById('feed-container');
+            const emptyState = document.getElementById('empty-state');
+            
+            container.innerHTML = '';
+
+            if (posts.length === 0) {
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+            } else {
+                emptyState.classList.add('hidden');
+                emptyState.classList.remove('flex');
+
+                // Reverse to show newest first, assuming sheet appends to bottom
+                posts.slice().reverse().forEach((post, index) => {
+                    const isLiked = isPostLiked(post.postNo);
+                    const article = document.createElement('article');
+                    article.className = `bg-white rounded-2xl p-6 md:p-8 shadow-[0_8px_30px_rgb(181,124,90,0.06)] hover:shadow-[0_8px_30px_rgb(181,124,90,0.12)] transition-all duration-500 border border-skin-200/50 fade-in relative overflow-hidden`;
+                    article.style.animationDelay = `${index * 0.05}s`;
+
+                    article.innerHTML = `
+                        <!-- Post Header -->
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="flex items-center gap-4">
+                                <div class="relative p-0.5 rounded-full border border-skin-300">
+                                    <img src="${post.profileImg}" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(post.name)}&background=F5EBE4&color=5C3522';" alt="${post.name}" class="w-12 h-12 rounded-full object-cover">
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-skin-900 text-base leading-tight tracking-wide">${post.name}</h3>
+                                    <p class="text-[13px] text-skin-500 mt-1 flex items-center gap-1.5 font-medium">
+                                        <i data-lucide="calendar-days" class="w-3.5 h-3.5"></i> ${post.timestamp}
+                                    </p>
+                                </div>
+                            </div>
+                            ${post.genre ? `<span class="bg-skin-50 text-skin-600 text-[11px] uppercase tracking-[0.1em] font-bold px-4 py-1.5 rounded-full border border-skin-200/80 shadow-sm">${post.genre}</span>` : ''}
+                        </div>
+
+                        <!-- Post Content -->
+                        <div class="mb-8">
+                            ${post.heading ? `<h2 class="text-2xl font-serif font-bold text-skin-900 mb-4 leading-snug">${post.heading}</h2>` : ''}
+                            <div class="post-body text-skin-800/95 whitespace-pre-line">${post.body}</div>
+                        </div>
+
+                        <!-- Post Footer / Actions -->
+                        <div class="flex items-center gap-6 pt-5 border-t border-skin-200/60">
+                            <button onclick="handleLike('${post.postNo}', this)" class="like-btn flex items-center gap-2 text-skin-600 hover:text-skin-800 transition-colors font-semibold text-sm group ${isLiked ? 'heart-liked' : ''}">
+                                <span class="p-2 rounded-full group-hover:bg-skin-50 transition-colors">
+                                    <i data-lucide="heart" class="w-5 h-5 text-skin-400 group-hover:text-skin-600 transition-all duration-300 transform group-hover:scale-110"></i>
+                                </span>
+                                <span class="like-count text-base">${post.likeCount}</span>
+                            </button>
+                            
+                            <button onclick="handleShare('${post.heading ? post.heading.replace(/'/g, "\\'") : 'A post from Curated Stories'}')" class="flex items-center gap-2 text-skin-600 hover:text-skin-800 transition-colors font-semibold text-sm group ml-auto">
+                                <span class="p-2 rounded-full group-hover:bg-skin-50 transition-colors">
+                                    <i data-lucide="share-2" class="w-5 h-5 text-skin-400 group-hover:text-skin-600 transition-all duration-300 transform group-hover:scale-110"></i>
+                                </span>
+                                Share
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(article);
+                });
+                
+                // Re-initialize icons for newly added DOM elements
+                lucide.createIcons();
+            }
+        }
+
+        // Filtering Logic
+        function filterPosts(genre) {
+            currentFilter = genre;
+            
+            // Update button styles
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.innerText.trim() === genre) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Filter data
+            const filteredPosts = genre === 'All' 
+                ? allPosts 
+                : allPosts.filter(post => post.genre && post.genre.toLowerCase() === genre.toLowerCase());
+
+            renderPosts(filteredPosts);
+        }
+
+        // Handle Like Action
+        function handleLike(postNo, btnElement) {
+            // Prevent spam clicking visually and check local storage
+            if (btnElement.classList.contains('heart-liked') || isPostLiked(postNo)) {
+                return;
+            }
+
+            // Save to local storage
+            saveLikedPost(postNo);
+
+            // 1. Optimistic UI Update
+            const countSpan = btnElement.querySelector('.like-count');
+            let currentCount = parseInt(countSpan.innerText) || 0;
+            countSpan.innerText = currentCount + 1;
+            
+            // Style update
+            btnElement.classList.add('heart-liked');
+            const icon = btnElement.querySelector('svg');
+            icon.style.fill = '#B57C5A';
+            icon.style.stroke = '#B57C5A';
+
+            // 2. Submit to Google Form silently
+            const formData = new URLSearchParams();
+            formData.append('entry.1220588492', postNo);
+            formData.append('entry.997356582', 'like');
+
+            fetch(FORM_SUBMIT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Crucial to prevent CORS errors on form submission
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData.toString()
+            }).then(() => {
+                showToast('Post liked!', 'heart');
+            }).catch(error => {
+                console.error('Error submitting like:', error);
+                // Even if fetch fails due to network, UI is updated.
+                // In a production app, you might want to revert UI if it truly fails.
+            });
+        }
+
+        // Handle Share Action
+        function handleShare(title) {
+            const url = window.location.href;
+            
+            if (navigator.share) {
+                // Use native Web Share API on supported devices (Mobile mostly)
+                navigator.share({
+                    title: 'Curated Stories',
+                    text: title,
+                    url: url
+                }).catch(console.error);
+            } else {
+                // Fallback: Copy link to clipboard
+                navigator.clipboard.writeText(`${title} - Read more at: ${url}`)
+                    .then(() => {
+                        showToast('Link copied to clipboard!', 'check');
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                        showToast('Failed to copy link', 'x');
+                    });
+            }
+        }
+    </script>
+</body>
+</html>

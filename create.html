@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Verse Community</title>
+    <!-- Google Fonts for Premium Feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        skin: {
+                            50: '#fdfbf9',  // Lightest ivory
+                            100: '#f6f0ea', // Pale nude
+                            200: '#efe3d8', // Light beige
+                            300: '#e1cdba', // Warm beige
+                            400: '#d2b49c', // Tan/Muted terracotta
+                            500: '#c0987c', // Deep tan
+                            600: '#a67d60', // Soft brown
+                            700: '#8c644c', // Cocoa
+                            800: '#73503f', // Taupe
+                            900: '#4a362a', // Deep espresso
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Lato', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        body { background-color: #fdfbf9; color: #4a362a; }
+        
+        /* Custom Editor Styles */
+        #editor {
+            min-height: 200px;
+            outline: none;
+        }
+        #editor[placeholder]:empty:before {
+            content: attr(placeholder);
+            color: #a67d60;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        /* Smooth Fade In */
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f6f0ea; }
+        ::-webkit-scrollbar-thumb { background: #d2b49c; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c0987c; }
+
+        .glass-panel {
+            background: rgba(246, 240, 234, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(225, 205, 186, 0.5);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col items-center p-4 sm:p-8">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-5 right-5 transform transition-all duration-300 translate-x-full opacity-0 bg-skin-800 text-skin-50 px-6 py-3 rounded-lg shadow-xl z-50 flex items-center gap-3">
+        <i class="ph ph-info font-bold text-xl"></i>
+        <span id="toast-msg" class="font-medium">Message</span>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="w-full max-w-4xl relative">
+        
+        <!-- ================= LOGIN SCREEN ================= -->
+        <div id="login-screen" class="fade-in max-w-md mx-auto mt-20">
+            <div class="glass-panel p-10 rounded-3xl shadow-2xl">
+                <div class="text-center mb-8">
+                    <h1 class="font-serif text-4xl text-skin-900 mb-2 font-bold tracking-wide">Book Verse</h1>
+                    <p class="text-skin-600 font-medium italic">Author's Sanctuary</p>
+                </div>
+
+                <form id="login-form" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-bold text-skin-800 mb-2" for="userid">Pen Name / User ID</label>
+                        <div class="relative">
+                            <i class="ph ph-user absolute left-4 top-1/2 transform -translate-y-1/2 text-skin-500 text-lg"></i>
+                            <input type="text" id="userid" required
+                                class="w-full pl-12 pr-4 py-3 rounded-xl bg-skin-50 border border-skin-300 focus:border-skin-500 focus:ring-2 focus:ring-skin-300 outline-none transition-all text-skin-900 font-medium placeholder-skin-400"
+                                placeholder="Enter your ID">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-bold text-skin-800 mb-2" for="password">Passphrase</label>
+                        <div class="relative">
+                            <i class="ph ph-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-skin-500 text-lg"></i>
+                            <input type="password" id="password" required
+                                class="w-full pl-12 pr-4 py-3 rounded-xl bg-skin-50 border border-skin-300 focus:border-skin-500 focus:ring-2 focus:ring-skin-300 outline-none transition-all text-skin-900 font-medium placeholder-skin-400"
+                                placeholder="••••••••">
+                        </div>
+                    </div>
+
+                    <button type="submit" id="login-btn"
+                        class="w-full py-4 mt-4 bg-skin-800 hover:bg-skin-900 text-skin-50 rounded-xl font-bold tracking-wider transition-colors shadow-lg shadow-skin-900/20 flex justify-center items-center gap-2">
+                        <span>Enter Realm</span>
+                        <i class="ph ph-arrow-right font-bold"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ================= DASHBOARD SCREEN ================= -->
+        <div id="dashboard-screen" class="hidden fade-in space-y-8 pb-20">
+            
+            <!-- Header Profile -->
+            <div class="glass-panel rounded-3xl p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 border border-skin-200">
+                <div class="flex items-center gap-4">
+                    <img id="profile-img" src="" alt="Author" class="w-16 h-16 rounded-full object-cover border-2 border-skin-400 shadow-md bg-skin-200">
+                    <div>
+                        <h2 class="font-serif text-2xl font-bold text-skin-900" id="profile-name">Author Name</h2>
+                        <p class="text-skin-600 text-sm font-medium">Book Verse Author</p>
+                    </div>
+                </div>
+                <button onclick="logout()" class="text-skin-600 hover:text-skin-900 transition-colors flex items-center gap-2 font-bold text-sm bg-skin-200/50 px-4 py-2 rounded-lg">
+                    <i class="ph ph-sign-out text-lg"></i> Logout
+                </button>
+            </div>
+
+            <!-- Compose Area -->
+            <div class="glass-panel rounded-3xl p-8 shadow-xl">
+                <div class="mb-8">
+                    <h2 class="font-serif text-3xl font-bold text-skin-900 mb-1">Compose Piece</h2>
+                    <p class="text-skin-600">Pour your thoughts onto the parchment.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Heading & Genre Row -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-bold text-skin-800 mb-2">Title / Heading</label>
+                            <input type="text" id="post-heading" required
+                                class="w-full px-4 py-3 rounded-xl bg-skin-50 border border-skin-300 focus:border-skin-500 focus:ring-2 focus:ring-skin-300 outline-none transition-all text-skin-900 font-serif text-lg font-bold placeholder-skin-400"
+                                placeholder="A Beautiful Mind...">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-skin-800 mb-2">Genre</label>
+                            <select id="post-genre" 
+                                class="w-full px-4 py-3 rounded-xl bg-skin-50 border border-skin-300 focus:border-skin-500 focus:ring-2 focus:ring-skin-300 outline-none transition-all text-skin-900 cursor-pointer font-medium appearance-none">
+                                <option value="motivational">Motivational</option>
+                                <option value="romantic">Romantic</option>
+                                <option value="melancholic">Melancholic</option>
+                                <option value="curious">Curious</option>
+                                <option value="relaxed">Relaxed</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Editor -->
+                    <div class="border border-skin-300 rounded-xl overflow-hidden bg-skin-50 shadow-inner">
+                        <!-- Toolbar -->
+                        <div class="bg-skin-200/50 border-b border-skin-300 p-2 flex flex-wrap gap-2 items-center">
+                            <select onchange="execCmd('fontName', this.value)" class="bg-transparent border border-skin-300 rounded px-2 py-1 text-sm font-medium text-skin-800 cursor-pointer outline-none">
+                                <option value="Lato">Sans Serif</option>
+                                <option value="Playfair Display">Serif</option>
+                                <option value="Courier New">Monospace</option>
+                            </select>
+                            <div class="w-px h-6 bg-skin-300 mx-1"></div>
+                            <button type="button" onclick="execCmd('bold')" class="p-2 hover:bg-skin-300 rounded transition text-skin-800" title="Bold"><i class="ph ph-text-b font-bold"></i></button>
+                            <button type="button" onclick="execCmd('italic')" class="p-2 hover:bg-skin-300 rounded transition text-skin-800" title="Italic"><i class="ph ph-text-italic font-bold"></i></button>
+                            <button type="button" onclick="execCmd('underline')" class="p-2 hover:bg-skin-300 rounded transition text-skin-800" title="Underline"><i class="ph ph-text-underline font-bold"></i></button>
+                            <div class="w-px h-6 bg-skin-300 mx-1"></div>
+                            <button type="button" onclick="execCmd('justifyLeft')" class="p-2 hover:bg-skin-300 rounded transition text-skin-800" title="Align Left"><i class="ph ph-text-align-left font-bold"></i></button>
+                            <button type="button" onclick="execCmd('justifyCenter')" class="p-2 hover:bg-skin-300 rounded transition text-skin-800" title="Align Center"><i class="ph ph-text-align-center font-bold"></i></button>
+                            <button type="button" onclick="execCmd('justifyRight')" class="p-2 hover:bg-skin-300 rounded transition text-skin-800" title="Align Right"><i class="ph ph-text-align-right font-bold"></i></button>
+                        </div>
+                        <!-- Canvas -->
+                        <div id="editor" contenteditable="true" class="p-5 text-skin-900 leading-relaxed font-sans" placeholder="Write your poem or quote here..."></div>
+                    </div>
+
+                    <button type="button" id="submit-post-btn" onclick="submitPost()"
+                        class="w-full sm:w-auto px-8 py-4 bg-skin-800 hover:bg-skin-900 text-skin-50 rounded-xl font-bold tracking-wider transition-colors shadow-lg shadow-skin-900/20 flex justify-center items-center gap-2 mt-4 ml-auto">
+                        <i class="ph ph-paper-plane-tilt font-bold text-lg"></i>
+                        <span>Publish to Community</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Iframe to catch form submission without redirect -->
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(window.isSubmitting){finishSubmit();}"></iframe>
+
+    <script>
+        // Configuration
+        const USERS_SHEET_ID = '1z1Lc7Bqw4eJCV19qGYDXF65oBkz8r0AS4k67yzaa_8c';
+        const POSTS_SHEET_ID = '16C5_fVdyPQ-mZ0IBvLzf2CEBkKI3ORa4HhM0vIEoZvw';
+        const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScfGtMMN_CsVYT0s62WRwWv2KaX26mx6M_ge98zCvyEqAkCNg/formResponse';
+        
+        let currentUser = null;
+        window.isSubmitting = false;
+
+        // UI Helpers
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.className = `fixed top-5 right-5 transform transition-all duration-300 opacity-100 translate-x-0 text-skin-50 px-6 py-4 rounded-xl shadow-2xl z-50 flex items-center gap-3 font-medium ${isError ? 'bg-red-800' : 'bg-skin-800'}`;
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-x-0');
+                toast.classList.add('opacity-0', 'translate-x-full');
+            }, 3000);
+        }
+
+        function toggleLoader(btnId, isLoading, originalText) {
+            const btn = document.getElementById(btnId);
+            if(isLoading) {
+                btn.disabled = true;
+                btn.innerHTML = `<i class="ph ph-spinner-gap animate-spin text-xl"></i> <span>Processing...</span>`;
+                btn.classList.add('opacity-80', 'cursor-not-allowed');
+            } else {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+                btn.classList.remove('opacity-80', 'cursor-not-allowed');
+            }
+        }
+
+        function switchScreen(screen) {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('dashboard-screen').classList.add('hidden');
+            document.getElementById(`${screen}-screen`).classList.remove('hidden');
+        }
+
+        // Logic Helpers
+        async function fetchGvizData(sheetId) {
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&gid=0`;
+            try {
+                const res = await fetch(url);
+                const text = await res.text();
+                // Extract pure JSON from Google's response wrapper
+                const jsonStr = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+                const data = JSON.parse(jsonStr);
+                return data.table;
+            } catch (err) {
+                console.error("Gviz Error: ", err);
+                throw new Error("Failed to connect to the database.");
+            }
+        }
+
+        function convertDriveLink(url) {
+            if (!url) return '';
+            // Regex to match file ID from different formats
+            const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+            if (match && match[1]) {
+                const fileId = match[1];
+                return `https://drive.google.com/uc?export=view&id=${fileId}`;
+            }
+            return url;
+        }
+
+        // Editor
+        function execCmd(command, value = null) {
+            document.execCommand(command, false, value);
+            document.getElementById('editor').focus();
+        }
+
+        // Core App Flow
+        async function handleLogin(e) {
+            e.preventDefault();
+            const idInput = document.getElementById('userid').value.trim();
+            const passInput = document.getElementById('password').value.trim();
+            
+            toggleLoader('login-btn', true);
+
+            try {
+                const table = await fetchGvizData(USERS_SHEET_ID);
+                const rows = table.rows || [];
+                
+                let foundUser = null;
+
+                // Column Index mapping based on your requirements:
+                // Col 2 (Image) = index 1
+                // Col 7 (Name) = index 6
+                // Col 8 (User ID) = index 7
+                // Col 9 (Password) = index 8
+                
+                for(let row of rows) {
+                    const rId = row.c[7] ? String(row.c[7].v).trim() : '';
+                    const rPass = row.c[8] ? String(row.c[8].v).trim() : '';
+                    
+                    if(rId === idInput && rPass === passInput) {
+                        const rawImg = row.c[1] ? row.c[1].v : '';
+                        const name = row.c[6] ? row.c[6].v : 'Anonymous Author';
+                        
+                        foundUser = {
+                            id: rId,
+                            pass: rPass,
+                            name: name,
+                            imgUrl: convertDriveLink(rawImg)
+                        };
+                        break;
+                    }
+                }
+
+                if(foundUser) {
+                    currentUser = foundUser;
+                    localStorage.setItem('bv_auth', JSON.stringify(foundUser));
+                    setupDashboard();
+                    switchScreen('dashboard');
+                    showToast("Welcome to the sanctuary.");
+                } else {
+                    showToast("Invalid Pen Name or Passphrase.", true);
+                }
+
+            } catch (error) {
+                showToast("Connection failed. Try again.", true);
+            }
+
+            toggleLoader('login-btn', false, `<span>Enter Realm</span><i class="ph ph-arrow-right font-bold"></i>`);
+        }
+
+        async function getNextPostNo() {
+            try {
+                const table = await fetchGvizData(POSTS_SHEET_ID);
+                // The length of the rows array represents the number of existing entries
+                const count = table.rows ? table.rows.length : 0;
+                return count + 1; // if 0 posts, post no is 1. If 5 posts, next is 6.
+            } catch (e) {
+                console.error("Post count fetch error", e);
+                return 1; // Fallback
+            }
+        }
+
+        async function submitPost() {
+            const heading = document.getElementById('post-heading').value.trim();
+            const genre = document.getElementById('post-genre').value;
+            const bodyHtml = document.getElementById('editor').innerHTML.trim();
+
+            if(!heading) return showToast("A title is required for your masterpiece.", true);
+            if(!bodyHtml || bodyHtml === '<br>') return showToast("The parchment cannot be empty.", true);
+
+            toggleLoader('submit-post-btn', true);
+
+            try {
+                const postNo = await getNextPostNo();
+                
+                // Form Fields Mapping based on instructions
+                // entry.477721170 = Image url
+                // entry.109709725 = Name
+                // entry.619346868 = Heading
+                // entry.1537677   = Body
+                // entry.812842912 = Genera (Genre)
+                // entry.865529116 = Post no
+                
+                const formData = {
+                    'entry.477721170': currentUser.imgUrl,
+                    'entry.109709725': currentUser.name,
+                    'entry.619346868': heading,
+                    'entry.1537677': bodyHtml,
+                    'entry.812842912': genre,
+                    'entry.865529116': postNo
+                };
+
+                // Create a temporary form to submit to the iframe
+                const form = document.createElement('form');
+                form.action = FORM_URL;
+                form.method = 'POST';
+                form.target = 'hidden_iframe';
+                form.style.display = 'none';
+
+                for (let key in formData) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = formData[key];
+                    form.appendChild(input);
+                }
+
+                document.body.appendChild(form);
+                window.isSubmitting = true; 
+                form.submit();
+                document.body.removeChild(form);
+
+            } catch (err) {
+                showToast("Failed to publish. Try again.", true);
+                toggleLoader('submit-post-btn', false, `<i class="ph ph-paper-plane-tilt font-bold text-lg"></i><span>Publish to Community</span>`);
+            }
+        }
+
+        // Called when the hidden iframe finishes loading the Google form response
+        function finishSubmit() {
+            window.isSubmitting = false;
+            showToast("Masterpiece published successfully!");
+            
+            // Reset form UI
+            document.getElementById('post-heading').value = '';
+            document.getElementById('editor').innerHTML = '';
+            document.getElementById('post-genre').selectedIndex = 0;
+            
+            toggleLoader('submit-post-btn', false, `<i class="ph ph-paper-plane-tilt font-bold text-lg"></i><span>Publish to Community</span>`);
+        }
+
+        function setupDashboard() {
+            document.getElementById('profile-name').innerText = currentUser.name;
+            
+            // Fix for Google Drive images: use the thumbnail endpoint for HTML display 
+            // while keeping the original uc?export=view format for form submission.
+            let displayImg = currentUser.imgUrl;
+            if (displayImg && displayImg.includes('id=')) {
+                const match = displayImg.match(/id=([a-zA-Z0-9_-]+)/);
+                if (match && match[1]) {
+                    // Using thumbnail endpoint which is less blocked by browsers for direct <img> display
+                    displayImg = `https://drive.google.com/thumbnail?id=${match[1]}&sz=w400`;
+                }
+            }
+
+            // Provide a fallback avatar if image is empty or invalid
+            document.getElementById('profile-img').src = displayImg || 'https://api.dicebear.com/7.x/initials/svg?seed=' + encodeURIComponent(currentUser.name) + '&backgroundColor=c0987c';
+        }
+
+        function logout() {
+            localStorage.removeItem('bv_auth');
+            currentUser = null;
+            document.getElementById('login-form').reset();
+            switchScreen('login');
+        }
+
+        // Initialization / Auto-login (Optimized for instant load)
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedAuth = localStorage.getItem('bv_auth');
+            if (savedAuth) {
+                try {
+                    currentUser = JSON.parse(savedAuth);
+                    setupDashboard();
+                    // Instantly switch to dashboard if credentials are found in local storage
+                    switchScreen('dashboard');
+                } catch(e) {
+                    // Clear corrupted local storage data if any
+                    localStorage.removeItem('bv_auth');
+                }
+            }
+
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
+        });
+    </script>
+</body>
+</html>

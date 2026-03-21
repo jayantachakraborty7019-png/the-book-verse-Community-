@@ -57,6 +57,16 @@
             </div>
         </div>
 
+        <!-- Filter Bar -->
+        <div class="mb-8 px-2 sm:px-0 flex flex-wrap gap-2 justify-center sm:justify-start" id="category-filters">
+            <button onclick="setCategory('All', this)" class="category-btn px-4 py-1.5 rounded-full text-sm font-semibold transition-colors bg-[#a9816b] text-white shadow-inner">All</button>
+            <button onclick="setCategory('Motivational', this)" class="category-btn px-4 py-1.5 rounded-full text-sm font-semibold transition-colors bg-[#f6e5d8] text-[#8a6b58] hover:bg-[#e8d5c8]">Motivational</button>
+            <button onclick="setCategory('Romance', this)" class="category-btn px-4 py-1.5 rounded-full text-sm font-semibold transition-colors bg-[#f6e5d8] text-[#8a6b58] hover:bg-[#e8d5c8]">Romance</button>
+            <button onclick="setCategory('Melancholic', this)" class="category-btn px-4 py-1.5 rounded-full text-sm font-semibold transition-colors bg-[#f6e5d8] text-[#8a6b58] hover:bg-[#e8d5c8]">Melancholic</button>
+            <button onclick="setCategory('Curious', this)" class="category-btn px-4 py-1.5 rounded-full text-sm font-semibold transition-colors bg-[#f6e5d8] text-[#8a6b58] hover:bg-[#e8d5c8]">Curious</button>
+            <button onclick="setCategory('Relaxed', this)" class="category-btn px-4 py-1.5 rounded-full text-sm font-semibold transition-colors bg-[#f6e5d8] text-[#8a6b58] hover:bg-[#e8d5c8]">Relaxed</button>
+        </div>
+
         <!-- Loading State -->
         <div id="loader" class="flex flex-col items-center justify-center py-20 text-[#8a6b58]">
             <i data-lucide="loader-2" class="w-10 h-10 animate-spin mb-4 text-[#a9816b]"></i>
@@ -93,6 +103,7 @@
 
         // Global variable to store all valid books for search filtering
         let allBooksData = [];
+        let currentCategory = 'All';
 
         // --- 1. THE REQUESTED GOOGLE DRIVE LINK CONVERTER FUNCTION ---
         function convertDriveImageLink(url) {
@@ -155,6 +166,7 @@
                         price: getCellValue(row, 4),
                         buyLink: rawBuyLink,
                         description: getCellValue(row, 6) || 'No description available.',
+                        category: getCellValue(row, 7) || '', // 8th column containing the genre
                         originalIndex: i // Keep track of index for unique IDs
                     });
                 }
@@ -162,7 +174,7 @@
                 renderBooks(allBooksData);
                 
                 // Setup search listener after data is fetched
-                document.getElementById('search-input').addEventListener('input', handleSearch);
+                document.getElementById('search-input').addEventListener('input', applyFilters);
 
             } catch (error) {
                 console.error("Error fetching sheet data:", error);
@@ -171,12 +183,37 @@
             }
         }
 
-        function handleSearch(event) {
-            const searchTerm = event.target.value.toLowerCase();
-            const filteredBooks = allBooksData.filter(book => {
-                return book.title.toLowerCase().includes(searchTerm) || 
-                       book.author.toLowerCase().includes(searchTerm);
+        function setCategory(category, btnElement) {
+            currentCategory = category;
+            
+            // Reset all buttons to default style
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-[#a9816b]', 'text-white', 'shadow-inner');
+                btn.classList.add('bg-[#f6e5d8]', 'text-[#8a6b58]', 'hover:bg-[#e8d5c8]');
             });
+            
+            // Set active style for clicked button
+            btnElement.classList.remove('bg-[#f6e5d8]', 'text-[#8a6b58]', 'hover:bg-[#e8d5c8]');
+            btnElement.classList.add('bg-[#a9816b]', 'text-white', 'shadow-inner');
+            
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            
+            const filteredBooks = allBooksData.filter(book => {
+                const matchesSearch = book.title.toLowerCase().includes(searchTerm) || 
+                                      book.author.toLowerCase().includes(searchTerm);
+                
+                // Check if book matches the selected category (case-insensitive)
+                const matchesCategory = currentCategory === 'All' || 
+                                        book.category.toLowerCase().includes(currentCategory.toLowerCase());
+                
+                return matchesSearch && matchesCategory;
+            });
+            
             renderBooks(filteredBooks);
         }
 

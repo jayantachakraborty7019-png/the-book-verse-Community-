@@ -312,42 +312,42 @@
                     <div class="text-5xl mb-4">🚀</div>
                     <h4 class="font-bold text-xl mb-2 text-stone-800">Motivated</h4>
                     <p class="text-sm text-stone-500 mb-6">Ready to conquer the world? Read books that fuel your ambition.</p>
-                    <a href="mod.html" class="text-xs font-bold uppercase tracking-widest text-orange-500 hover:text-orange-700 transition-colors mt-auto">Read Motivated Books <i class="fas fa-arrow-right ml-1"></i></a>
+                    <button onclick="openFormatModal('motivated')" class="text-xs font-bold uppercase tracking-widest text-orange-500 hover:text-orange-700 transition-colors mt-auto cursor-pointer">Read Motivated Books <i class="fas fa-arrow-right ml-1"></i></button>
                 </div>
                 <!-- Romantic -->
                 <div class="mood-card text-center flex flex-col items-center justify-between">
                     <div class="text-5xl mb-4">💖</div>
                     <h4 class="font-bold text-xl mb-2 text-stone-800">Romantic</h4>
                     <p class="text-sm text-stone-500 mb-6">Yearning for love? Dive into stories that capture the heart.</p>
-                    <a href="mod.html" class="text-xs font-bold uppercase tracking-widest text-orange-500 hover:text-orange-700 transition-colors mt-auto">Read Romance <i class="fas fa-arrow-right ml-1"></i></a>
+                    <button onclick="openFormatModal('romantic')" class="text-xs font-bold uppercase tracking-widest text-orange-500 hover:text-orange-700 transition-colors mt-auto cursor-pointer">Read Romance <i class="fas fa-arrow-right ml-1"></i></button>
                 </div>
                 <!-- Sad / Melancholy -->
                 <div class="mood-card text-center flex flex-col items-center justify-between">
                     <div class="text-5xl mb-4">🌧️</div>
                     <h4 class="font-bold text-xl mb-2 text-stone-800">Melancholic</h4>
                     <p class="text-sm text-stone-500 mb-6">Feeling blue? Find comfort and understanding in these pages.</p>
-                    <a href="mod.html" class="text-xs font-bold uppercase tracking-widest text-orange-500 hover:text-orange-700 transition-colors mt-auto">Find Comfort Reads <i class="fas fa-arrow-right ml-1"></i></a>
+                    <button onclick="openFormatModal('sad')" class="text-xs font-bold uppercase tracking-widest text-orange-500 hover:text-orange-700 transition-colors mt-auto cursor-pointer">Find Comfort Reads <i class="fas fa-arrow-right ml-1"></i></button>
                 </div>
                 <!-- Curious -->
                 <div class="mood-card text-center flex flex-col items-center justify-between">
                     <div class="text-5xl mb-4">🕵️</div>
                     <h4 class="font-bold text-xl mb-2 text-stone-800">Curious</h4>
                     <p class="text-sm text-stone-500 mb-6">Need a puzzle? Get lost in thrilling mysteries and thrillers.</p>
-                    <a href="mod.html" class="text-xs font-bold uppercase tracking-widest text-orange-500 hover:text-orange-700 transition-colors mt-auto">Read Mysteries <i class="fas fa-arrow-right ml-1"></i></a>
+                    <button onclick="openFormatModal('curious')" class="text-xs font-bold uppercase tracking-widest text-orange-500 hover:text-orange-700 transition-colors mt-auto cursor-pointer">Read Mysteries <i class="fas fa-arrow-right ml-1"></i></button>
                 </div>
                 <!-- Relaxed -->
                 <div class="mood-card text-center flex flex-col items-center justify-between">
                     <div class="text-5xl mb-4">☕</div>
                     <h4 class="font-bold text-xl mb-2 text-stone-800">Relaxed</h4>
                     <p class="text-sm text-stone-500 mb-6">Just want to unwind? Enjoy our light, cozy reading selections.</p>
-                    <a href="mod.html" class="text-xs font-bold uppercase tracking-widest text-orange-500 hover:text-orange-700 transition-colors mt-auto">Read Cozy Books <i class="fas fa-arrow-right ml-1"></i></a>
+                    <button onclick="openFormatModal('relaxed')" class="text-xs font-bold uppercase tracking-widest text-orange-500 hover:text-orange-700 transition-colors mt-auto cursor-pointer">Read Cozy Books <i class="fas fa-arrow-right ml-1"></i></button>
                 </div>
             </div>
         </section>
 
         <!-- Professional CTA Buttons -->
         <section class="max-w-4xl mx-auto px-6 mb-32 flex flex-col sm:flex-row justify-center gap-6">
-            <a href="blog.html" class="bg-stone-800 hover:bg-stone-900 text-white px-8 py-5 rounded-[100px] text-center font-bold tracking-widest uppercase text-xs transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+            <a href="lit.html" class="bg-stone-800 hover:bg-stone-900 text-white px-8 py-5 rounded-[100px] text-center font-bold tracking-widest uppercase text-xs transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
                 Start a Quick Read
             </a>
             <a href="books.html" class="bg-orange-200 hover:bg-orange-300 text-stone-900 px-8 py-5 rounded-[100px] text-center font-bold tracking-widest uppercase text-xs transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
@@ -470,6 +470,31 @@
         </section>
 
     </main>
+
+    <!-- Reading Format Modal -->
+    <div id="formatModal" class="fixed inset-0 z-[70] hidden flex items-center justify-center">
+        <div class="absolute inset-0 bg-stone-900/60 backdrop-blur-sm transition-opacity" onclick="closeFormatModal()"></div>
+        <div class="relative bg-white p-8 md:p-10 rounded-[32px] shadow-2xl max-w-sm w-full mx-6 transform transition-all scale-95 opacity-0 duration-300" id="formatModalContent">
+            <button onclick="closeFormatModal()" class="absolute top-6 right-6 text-stone-400 hover:text-stone-800 text-xl transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="text-center mt-2">
+                <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-book-reader text-2xl text-orange-400"></i>
+                </div>
+                <h3 class="text-2xl font-bold serif mb-3 text-stone-800">Select Format</h3>
+                <p class="text-stone-500 mb-8 text-sm leading-relaxed">How much time do you have right now? Pick your preferred reading style.</p>
+                <div class="flex flex-col gap-4">
+                    <a href="books.html" class="bg-stone-800 hover:bg-stone-900 text-white px-6 py-4 rounded-2xl font-bold tracking-widest uppercase text-xs transition-all shadow-md hover:shadow-xl hover:-translate-y-1 flex items-center justify-center gap-3">
+                        <i class="fas fa-book"></i> Full Books
+                    </a>
+                    <a href="lit.html" class="bg-orange-200 hover:bg-orange-300 text-stone-900 px-6 py-4 rounded-2xl font-bold tracking-widest uppercase text-xs transition-all shadow-md hover:shadow-xl hover:-translate-y-1 flex items-center justify-center gap-3">
+                        <i class="fas fa-bolt text-orange-600"></i> Short Reads
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="bg-stone-900 text-stone-500 py-16 px-6 text-center">
         <div class="serif text-xl text-white font-bold tracking-widest mb-6">THE BOOK VERSE</div>
@@ -685,6 +710,35 @@
         const toggle = () => sidebar.classList.toggle('active');
         menuBtn.onclick = toggle; closeBtn.onclick = toggle; 
         document.getElementById('closeOverlay').onclick = toggle;
+
+        // Modal Functions
+        function openFormatModal(mood) {
+            const modal = document.getElementById('formatModal');
+            const content = document.getElementById('formatModalContent');
+            
+            // Show modal container
+            modal.classList.remove('hidden');
+            
+            // Trigger animation slightly after display block
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeFormatModal() {
+            const modal = document.getElementById('formatModal');
+            const content = document.getElementById('formatModalContent');
+            
+            // Trigger exit animation
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            
+            // Hide container after animation finishes
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
 
         window.onload = () => { 
             updateBookState(); 
