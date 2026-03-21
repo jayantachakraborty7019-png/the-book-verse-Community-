@@ -178,13 +178,13 @@
                                 <option value="Courier New">Monospace</option>
                             </select>
                             <div class="w-px h-6 bg-skin-300 mx-1"></div>
-                            <button type="button" onclick="execCmd('bold')" class="p-2 hover:bg-skin-300 rounded transition text-skin-800" title="Bold"><i class="ph ph-text-b font-bold"></i></button>
-                            <button type="button" onclick="execCmd('italic')" class="p-2 hover:bg-skin-300 rounded transition text-skin-800" title="Italic"><i class="ph ph-text-italic font-bold"></i></button>
-                            <button type="button" onclick="execCmd('underline')" class="p-2 hover:bg-skin-300 rounded transition text-skin-800" title="Underline"><i class="ph ph-text-underline font-bold"></i></button>
+                            <button type="button" id="btn-bold" onclick="execCmd('bold')" class="p-2 hover:bg-skin-300 rounded transition text-skin-800" title="Bold"><i class="ph ph-text-b font-bold"></i></button>
+                            <button type="button" id="btn-italic" onclick="execCmd('italic')" class="p-2 hover:bg-skin-300 rounded transition text-skin-800" title="Italic"><i class="ph ph-text-italic font-bold"></i></button>
+                            <button type="button" id="btn-underline" onclick="execCmd('underline')" class="p-2 hover:bg-skin-300 rounded transition text-skin-800" title="Underline"><i class="ph ph-text-underline font-bold"></i></button>
                             <div class="w-px h-6 bg-skin-300 mx-1"></div>
-                            <button type="button" onclick="execCmd('justifyLeft')" class="p-2 hover:bg-skin-300 rounded transition text-skin-800" title="Align Left"><i class="ph ph-text-align-left font-bold"></i></button>
-                            <button type="button" onclick="execCmd('justifyCenter')" class="p-2 hover:bg-skin-300 rounded transition text-skin-800" title="Align Center"><i class="ph ph-text-align-center font-bold"></i></button>
-                            <button type="button" onclick="execCmd('justifyRight')" class="p-2 hover:bg-skin-300 rounded transition text-skin-800" title="Align Right"><i class="ph ph-text-align-right font-bold"></i></button>
+                            <button type="button" id="btn-justifyLeft" onclick="execCmd('justifyLeft')" class="p-2 hover:bg-skin-300 rounded transition text-skin-800" title="Align Left"><i class="ph ph-text-align-left font-bold"></i></button>
+                            <button type="button" id="btn-justifyCenter" onclick="execCmd('justifyCenter')" class="p-2 hover:bg-skin-300 rounded transition text-skin-800" title="Align Center"><i class="ph ph-text-align-center font-bold"></i></button>
+                            <button type="button" id="btn-justifyRight" onclick="execCmd('justifyRight')" class="p-2 hover:bg-skin-300 rounded transition text-skin-800" title="Align Right"><i class="ph ph-text-align-right font-bold"></i></button>
                         </div>
                         <!-- Canvas -->
                         <div id="editor" contenteditable="true" class="p-5 text-skin-900 leading-relaxed font-sans" placeholder="Write your poem or quote here..."></div>
@@ -270,9 +270,27 @@
         }
 
         // Editor
+        function updateToolbar() {
+            const commands = ['bold', 'italic', 'underline', 'justifyLeft', 'justifyCenter', 'justifyRight'];
+            commands.forEach(cmd => {
+                const btn = document.getElementById('btn-' + cmd);
+                if (!btn) return;
+                
+                // Checks if the formatting is currently active at the cursor or selection
+                if (document.queryCommandState(cmd)) {
+                    btn.classList.add('bg-skin-400', 'text-skin-900', 'shadow-inner');
+                    btn.classList.remove('hover:bg-skin-300', 'text-skin-800');
+                } else {
+                    btn.classList.remove('bg-skin-400', 'text-skin-900', 'shadow-inner');
+                    btn.classList.add('hover:bg-skin-300', 'text-skin-800');
+                }
+            });
+        }
+
         function execCmd(command, value = null) {
             document.execCommand(command, false, value);
             document.getElementById('editor').focus();
+            updateToolbar();
         }
 
         // Core App Flow
@@ -452,6 +470,14 @@
             }
 
             document.getElementById('login-form').addEventListener('submit', handleLogin);
+            
+            // Editor formatting state listeners (checks formatting as you type or click)
+            const editorDiv = document.getElementById('editor');
+            if(editorDiv) {
+                editorDiv.addEventListener('keyup', updateToolbar);
+                editorDiv.addEventListener('mouseup', updateToolbar);
+                editorDiv.addEventListener('focus', updateToolbar);
+            }
         });
     </script>
 </body>
