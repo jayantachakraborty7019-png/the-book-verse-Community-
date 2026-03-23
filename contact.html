@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration Panel | The Bookverse Community</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        skin: {
+                            50: '#FCFAF8',  // Lightest cream
+                            100: '#F7EFE8', // Light beige
+                            200: '#EBD9C8', // Soft nude
+                            300: '#DABBA4', // Tan
+                            400: '#C49A7D', // Warm brown
+                            800: '#5C4435', // Dark brown for text
+                            900: '#3D2A1F', // Darkest brown for headings
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FCFAF8;
+            color: #5C4435;
+        }
+        .glass-card {
+            background: rgba(247, 239, 232, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(218, 187, 164, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-skin-300 selection:text-skin-900">
+
+    <!-- Header Section -->
+    <header class="bg-skin-100 border-b border-skin-200 sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-skin-300 flex items-center justify-center text-skin-900 shadow-sm">
+                    <i data-lucide="book-open" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-skin-900 tracking-tight">The Bookverse Community</h1>
+                    <p class="text-xs font-medium text-skin-400 uppercase tracking-wider">Administration Panel</p>
+                </div>
+            </div>
+            <div class="hidden sm:flex items-center">
+                <a href="mailto:thebookversecommunity@gmail.com" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-skin-800 text-skin-50 hover:bg-skin-900 transition-colors text-sm font-medium">
+                    <i data-lucide="mail" class="w-4 h-4"></i>
+                    Contact Admin
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        
+        <div class="text-center max-w-2xl mx-auto mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-skin-900 mb-4">Leadership & Administration</h2>
+            <p class="text-skin-800 text-lg opacity-80">Meet the core team orchestrating strategy, community relations, and technical operations at The Bookverse.</p>
+        </div>
+
+        <!-- Team Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
+            
+            <!-- Profile 1: Abdur Rahman -->
+            <div class="glass-card rounded-2xl p-8 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 lg:col-start-2">
+                <div class="relative w-32 h-32 mb-6">
+                    <img 
+                        src="https://drive.google.com/thumbnail?id=1k73PF4ySnZSW4ySd6UdA0GBxKw4A1mpp&sz=w800" 
+                        alt="Abdur Rahman" 
+                        class="w-full h-full object-cover rounded-full border-4 border-skin-50 shadow-md"
+                        referrerpolicy="no-referrer"
+                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Abdur+Rahman&background=DABBA4&color=3D2A1F&size=150'"
+                    >
+                    <div class="absolute bottom-0 right-0 w-8 h-8 bg-skin-800 rounded-full flex items-center justify-center text-skin-50 border-2 border-skin-50" title="Founder">
+                        <i data-lucide="award" class="w-4 h-4"></i>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-skin-900 mb-1">Abdur Rahman</h3>
+                <p class="text-sm font-semibold text-skin-400 uppercase tracking-wider mb-4">Founder & Chief Executive Coordinator</p>
+                <div class="w-12 h-1 bg-skin-300 rounded-full mb-4"></div>
+                <p class="text-sm text-skin-800 opacity-80">Overseeing the overarching vision, organizational structure, and executive operations.</p>
+            </div>
+
+            <div class="col-span-1 md:col-span-2 lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
+                <!-- Profile 2: Samyak Chakraborty -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                    <img 
+                        src="https://drive.google.com/thumbnail?id=18TOJX8W92twHnBHNeCvT4ySDrq1zU89A&sz=w800" 
+                        alt="Samyak Chakraborty" 
+                        class="w-24 h-24 object-cover rounded-full border-4 border-skin-50 shadow-sm mb-4"
+                        referrerpolicy="no-referrer"
+                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Samyak+Chakraborty&background=DABBA4&color=3D2A1F&size=150'"
+                    >
+                    <h3 class="text-lg font-bold text-skin-900 mb-1">Samyak Chakraborty</h3>
+                    <p class="text-xs font-semibold text-skin-400 uppercase tracking-wider mb-3">Lead Technical & Social Media Director</p>
+                    <div class="mt-auto flex gap-2">
+                        <span class="inline-flex items-center px-2 py-1 rounded-md bg-skin-200 text-skin-900 text-xs font-medium"><i data-lucide="code" class="w-3 h-3 mr-1"></i>Tech</span>
+                        <span class="inline-flex items-center px-2 py-1 rounded-md bg-skin-200 text-skin-900 text-xs font-medium"><i data-lucide="share-2" class="w-3 h-3 mr-1"></i>Social</span>
+                    </div>
+                </div>
+
+                <!-- Profile 3: Amisha -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                    <img 
+                        src="https://drive.google.com/thumbnail?id=1DJkdF-LoIuZHnPoIm6MMYxy1b9y8F4Rt&sz=w800" 
+                        alt="Amisha" 
+                        class="w-24 h-24 object-cover rounded-full border-4 border-skin-50 shadow-sm mb-4"
+                        referrerpolicy="no-referrer"
+                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Amisha&background=DABBA4&color=3D2A1F&size=150'"
+                    >
+                    <h3 class="text-lg font-bold text-skin-900 mb-1">Amisha</h3>
+                    <p class="text-xs font-semibold text-skin-400 uppercase tracking-wider mb-3">Head of Review Operations</p>
+                    <div class="mt-auto flex gap-2">
+                        <span class="inline-flex items-center px-2 py-1 rounded-md bg-skin-200 text-skin-900 text-xs font-medium"><i data-lucide="star" class="w-3 h-3 mr-1"></i>Quality Assurance</span>
+                    </div>
+                </div>
+
+                <!-- Profile 4: Atif Jameel -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                    <img 
+                        src="https://drive.google.com/thumbnail?id=1Ae32qLAkX8R6sfJNYLmSjcu81lhGP-7H&sz=w800" 
+                        alt="Atif Jameel" 
+                        class="w-24 h-24 object-cover rounded-full border-4 border-skin-50 shadow-sm mb-4"
+                        referrerpolicy="no-referrer"
+                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Atif+Jameel&background=DABBA4&color=3D2A1F&size=150'"
+                    >
+                    <h3 class="text-lg font-bold text-skin-900 mb-1">Atif Jameel</h3>
+                    <p class="text-xs font-semibold text-skin-400 uppercase tracking-wider mb-3">Chief Strategy Officer</p>
+                    <div class="mt-auto flex gap-2">
+                        <span class="inline-flex items-center px-2 py-1 rounded-md bg-skin-200 text-skin-900 text-xs font-medium"><i data-lucide="trending-up" class="w-3 h-3 mr-1"></i>Strategy</span>
+                    </div>
+                </div>
+
+                <!-- Profile 5: The Misfit -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                    <img 
+                        src="https://drive.google.com/thumbnail?id=1LRzfamQSTbYul3Gt2fRnarObjrjs9tXE&sz=w800" 
+                        alt="The Misfit" 
+                        class="w-24 h-24 object-cover rounded-full border-4 border-skin-50 shadow-sm mb-4"
+                        referrerpolicy="no-referrer"
+                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=The+Misfit&background=DABBA4&color=3D2A1F&size=150'"
+                    >
+                    <h3 class="text-lg font-bold text-skin-900 mb-1">The Misfit</h3>
+                    <p class="text-xs font-semibold text-skin-400 uppercase tracking-wider mb-3">Director of Member Relations</p>
+                    <div class="mt-auto flex gap-2">
+                        <span class="inline-flex items-center px-2 py-1 rounded-md bg-skin-200 text-skin-900 text-xs font-medium"><i data-lucide="users" class="w-3 h-3 mr-1"></i>Community</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer / Contact Section -->
+    <footer class="bg-skin-900 text-skin-100 py-12 mt-12 border-t-4 border-skin-400">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <i data-lucide="mail-open" class="w-10 h-10 mx-auto mb-4 text-skin-300"></i>
+            <h2 class="text-2xl font-bold mb-2">Get In Touch With Administration</h2>
+            <p class="text-skin-200 mb-6 opacity-80">For inquiries, partnerships, or community support, please reach out to our official desk.</p>
+            
+            <div class="inline-flex justify-center w-full sm:w-auto">
+                <a href="mailto:thebookversecommunity@gmail.com" class="inline-flex items-center gap-3 px-8 py-4 bg-skin-300 hover:bg-skin-200 text-skin-900 rounded-2xl font-bold transition-transform hover:-translate-y-1 shadow-lg">
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                    <span>Email Us Directly</span>
+                </a>
+            </div>
+            
+            <p class="text-xs text-skin-400 mt-12">
+                &copy; <script>document.write(new Date().getFullYear())</script> The Bookverse Community. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Initialize Icons & Scripts -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -29,7 +29,6 @@
             font-family: 'Playfair Display', serif;
         }
 
-        /* Card Styles */
         .member-card {
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             background-color: white;
@@ -77,18 +76,17 @@
         .filter-btn {
             transition: all 0.3s ease;
             color: var(--text-muted);
-            font-size: 8.5px;
-            letter-spacing: 0.12em;
-            font-weight: 700;
+            font-size: 9px;
+            letter-spacing: 0.15em;
+            font-weight: 800;
             text-transform: uppercase;
         }
 
         .filter-btn.active {
             color: var(--text-dark);
-            border-bottom: 1.5px solid var(--text-dark);
+            border-bottom: 2px solid var(--text-dark);
         }
 
-        /* Action Buttons */
         .btn-premium {
             transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1);
             font-size: 8px;
@@ -130,43 +128,41 @@
         <header class="py-12 px-6 text-center">
             <div class="max-w-4xl mx-auto">
                 <span class="inline-block mb-3 text-[8px] font-bold tracking-[0.4em] text-stone-400 uppercase">
-                    The 2026 Community Registry
+                    THE 2026 COMMUNITY REGISTRY
                 </span>
                 <h1 class="text-3xl md:text-5xl font-light text-stone-900 mb-8 tracking-tight">
                     View Our Members
                 </h1>
                 
-                <div class="flex flex-wrap justify-center gap-6 mt-6">
-                    <button onclick="setFilter('All')" class="filter-btn active px-2 py-1">All</button>
-                    <button onclick="setFilter('Author')" class="filter-btn px-2 py-1">Author</button>
-                    <button onclick="setFilter('Readers')" class="filter-btn px-2 py-1">Readers</button>
-                    <button onclick="setFilter('Reviewer')" class="filter-btn px-2 py-1">Reviewer</button>
-                    <button onclick="setFilter('Other')" class="filter-btn px-2 py-1">Other</button>
+                <div class="flex flex-wrap justify-center gap-8 mt-6">
+                    <button onclick="setFilter('ALL')" class="filter-btn active px-2 py-1">ALL</button>
+                    <button onclick="setFilter('AUTHOR')" class="filter-btn px-2 py-1">AUTHOR</button>
+                    <button onclick="setFilter('REVIEWER')" class="filter-btn px-2 py-1">REVIEWER</button>
+                    <button onclick="setFilter('LITERARY CURATOR')" class="filter-btn px-2 py-1">LITERARY CURATOR</button>
+                    <button onclick="setFilter('OTHER')" class="filter-btn px-2 py-1">OTHER</button>
                 </div>
             </div>
         </header>
 
         <main class="max-w-7xl mx-auto px-6 pb-24">
-            <!-- Loading -->
             <div id="loading" class="flex flex-col items-center justify-center py-20">
                 <div class="loader ease-linear rounded-full border-2 border-stone-200 h-8 w-8 mb-4"></div>
-                <p class="text-stone-400 uppercase tracking-[0.3em] text-[7px] font-bold">Connecting Registry</p>
+                <p class="text-stone-400 uppercase tracking-[0.3em] text-[7px] font-bold">CONNECTING REGISTRY</p>
             </div>
 
-            <!-- Grid -->
             <div id="members-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
                 <!-- Cards injected here -->
             </div>
         </main>
 
         <footer class="py-12 border-t border-stone-100 text-center">
-            <p class="text-stone-400 text-[7px] tracking-[0.4em] uppercase font-bold">&copy; 2026 Membership Community Professional Directory</p>
+            <p class="text-stone-400 text-[7px] tracking-[0.4em] uppercase font-bold">&copy; 2026 MEMBERSHIP COMMUNITY PROFESSIONAL DIRECTORY</p>
         </footer>
     </section>
 
     <script>
         let allMembers = [];
-        let currentFilter = 'All';
+        let currentFilter = 'ALL';
 
         function getDriveImageUrl(link) {
             if (!link) return null;
@@ -182,9 +178,7 @@
         function setFilter(category) {
             currentFilter = category;
             document.querySelectorAll('.filter-btn').forEach(btn => {
-                const btnText = btn.innerText.trim().toLowerCase();
-                const filterText = category.trim().toLowerCase();
-                if (btnText === filterText) {
+                if (btn.innerText === category) {
                     btn.classList.add('active');
                 } else {
                     btn.classList.remove('active');
@@ -196,15 +190,23 @@
         function getFilteredMembers() {
             const filterNorm = normalize(currentFilter);
             if (filterNorm === 'all') return allMembers;
+            
             return allMembers.filter(member => {
-                const catNorm = normalize(member.category);
-                return catNorm.includes(filterNorm) || filterNorm.includes(catNorm);
+                // Split by semicolon and normalize all parts
+                const categories = member.category.split(';').map(c => normalize(c));
+                
+                // Special mapping: If filter is "literary curator", check for "reader" or "curator" in data
+                if (filterNorm === 'literary curator') {
+                    return categories.some(c => c.includes('reader') || c.includes('literary curator'));
+                }
+                
+                return categories.some(c => c.includes(filterNorm) || filterNorm.includes(c));
             });
         }
 
         async function fetchMembers() {
             const sheetId = '1z1Lc7Bqw4eJCV19qGYDXF65oBkz8r0AS4k67yzaa_8c';
-            const targetGid = '2'; // 3rd Tab
+            const targetGid = '2'; 
             const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&gid=${targetGid}`;
 
             try {
@@ -216,7 +218,13 @@
                 allMembers = data.table.rows.filter(row => row.c && row.c[2]).map(row => {
                     const c = row.c;
                     const rawImageUrl = c[1] ? (c[1].v || c[1].f) : null;
-                    const category = c[2] ? (c[2].v || c[2].f) : 'Other';
+                    let category = c[2] ? (c[2].v || c[2].f) : 'Other';
+                    
+                    // Display mapping: Change "Reader" to "Literary Curator" on the card
+                    if (normalize(category).includes('reader')) {
+                        category = category.replace(/Readers/gi, 'Literary Curator').replace(/Reader/gi, 'Literary Curator');
+                    }
+
                     const name = c[3] ? (c[3].v || c[3].f) : 'Private Member';
                     const phone = c[4] ? (c[4].v || c[4].f) : ''; 
                     const social = c[5] ? (c[5].v || c[5].f) : ''; 
@@ -274,18 +282,16 @@
                         <h3 class="text-base font-light text-stone-900 mb-6 tracking-tight leading-tight">${member.name}</h3>
                         
                         <div class="mt-auto space-y-2">
-                            <!-- WhatsApp Reach Out Button -->
                             <a href="${waLink}" target="_blank" class="btn-premium flex items-center justify-center gap-2 w-full bg-stone-900 text-white py-2.5 rounded-full shadow-sm">
                                 <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
                                 WhatsApp Reach Out
                             </a>
                             
-                            <!-- Know More Button -->
-                            <a href="${socialLink}" target="_blank" class="btn-premium block w-full py-2.5 rounded-full btn-outline">
+                            <a href="${socialLink}" target="_blank" class="btn-premium flex items-center justify-center gap-2 w-full py-2.5 rounded-full btn-outline">
+                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.975.975 1.245 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.063 1.366-.333 2.633-1.308 3.608-.975.975-2.242 1.245-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.063-2.633-.333-3.608-1.308-.975-.975-1.245-2.242-1.308-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.063-1.366.333-2.633 1.308-3.608.975-.975 2.242-1.245 3.608-1.308 1.266-.058 1.646-.07 4.85-.07zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12s.014 3.667.072 4.947c.2 4.352 2.612 6.765 6.966 6.965 1.28.057 1.688.072 4.962.072s3.682-.015 4.962-.072c4.352-.2 6.765-2.613 6.965-6.965.058-1.28.072-1.688.072-4.963s-.015-3.682-.072-4.962c-.2-4.352-2.613-6.765-6.965-6.965C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z"/></svg>
                                 Know more about the member
                             </a>
 
-                            <!-- Author Button -->
                             ${isAuthor ? `
                             <a href="books.html" class="btn-premium block w-full bg-indigo-600 text-white py-2.5 rounded-full shadow-sm">
                                 View the Book
